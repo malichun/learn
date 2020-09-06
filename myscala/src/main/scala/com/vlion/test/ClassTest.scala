@@ -2,7 +2,7 @@ package com.vlion.test
 
 object ClassTest {
     def main(args: Array[String]): Unit = {
-
+        println("123")
     }
 }
 
