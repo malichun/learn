@@ -37,4 +37,5 @@ target
 
 */logs/*
 logs/*
-
+target/*
+flink/dependency-reduced-pom.xml
