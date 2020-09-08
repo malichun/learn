@@ -31,8 +31,10 @@ hs_err_pid*
 .settings
 target
 
+
 */*.iml
 *.iml
 
 */logs/*
 logs/*
+
