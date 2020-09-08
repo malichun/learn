@@ -12,13 +12,13 @@ object MapExample {
 
         env.setParallelism(1)
 
-        val stream = env.addSource(new SensorSource)
+        val stream:DataStream[SensorReading] = env.addSource(new SensorSource)
 
-        val mapped1 = stream.map( r => r.id)
+        val mapped1: DataStream[String] = stream.map(r => r.id)
 
-        val mapped2 = stream.map(new MyMapFunction())
+        val mapped2: DataStream[String] = stream.map(new MyMapFunction())
 
-        val mapped3 = stream.map(new MapFunction[SensorReading,String] {
+        val mapped3: DataStream[String] = stream.map(new MapFunction[SensorReading,String] {
             override def map(value: SensorReading): String = {
                 value.id
             }
