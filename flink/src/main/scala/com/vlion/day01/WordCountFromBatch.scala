@@ -17,24 +17,24 @@ object WordCountFromBatch {
                 "zuoyuan",
                 "zuoyuan"
             )
-            .setParallelism(1)
+//            .setParallelism(1)
 
         //对数据流进行转换算子操作
         val textStream = stream
             .flatMap(_.split("\\s"))
-            .setParallelism(2)
+//            .setParallelism(2)
         //做map操作 w => (w,1)
             .map(w => WordWithCount(w,1))
-            .setParallelism(2)
+//            .setParallelism(2)
         //使用word字段进行分组操作,也就是shuffle
             .keyBy(0)
         //做聚合操作,类似reduce
             .sum(1)
-            .setParallelism(2)
+//            .setParallelism(2)
 
         //将数据流输出到标准输出,也就是打印
         //设置并行度为1,print算子的并行度就是1,覆盖了全局并行度
-        textStream.print().setParallelism(2)
+        textStream.print()
 
         //不要忘记执行
         env.execute()
