@@ -1,4 +1,4 @@
-package com.vlion.day02
+package com.vlion.zuoyuan.day02
 
 import org.apache.flink.streaming.api.functions.co.CoFlatMapFunction
 import org.apache.flink.streaming.api.scala._

@@ -1,4 +1,4 @@
-package com.vlion.day01
+package com.vlion.zuoyuan.day01
 
 import org.apache.flink.streaming.api.scala._
 import org.apache.flink.streaming.api.windowing.time.Time
