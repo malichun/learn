@@ -23,6 +23,13 @@ object FlatMapExample1 {
         }).print()
 
         //使用flatMap实现filter功能
+        stream.flatMap(new FlatMapFunction[SensorReading,SensorReading] {
+            override def flatMap(value: SensorReading, out: Collector[SensorReading]): Unit = {
+                if(value.id.equals("sensor_1")) {
+                    out.collect(value)
+                }
+            }
+        }).print
 
         env.execute()
     }
