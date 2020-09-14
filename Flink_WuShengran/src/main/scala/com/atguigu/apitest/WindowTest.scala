@@ -25,7 +25,7 @@ object WindowTest {
         //    val inputStream = env.readTextFile("D:\\fileImportant\\Learn_projects\\learn\\Flink_WuShengran\\src\\main\\resources\\sensor.txt")
 
         //换成socket流输入
-//        val inputStream = env.socketTextStream("www.bigdata01.com", 4444)
+        //        val inputStream = env.socketTextStream("www.bigdata01.com", 4444)
         //kafkaSource
         val properties = new Properties()
         properties.setProperty("bootstrap.servers", "www.bigdata04.com:9092,www.bigdata05.com:9092,www.bigdata06.com:9092")
@@ -34,22 +34,22 @@ object WindowTest {
         properties.setProperty("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
         properties.setProperty("auto.offset.reset", "latest")
 
-        val inputStream = env.addSource(new FlinkKafkaConsumer011[String]("ad_log",new SimpleStringSchema(),properties))
+        val inputStream = env.addSource(new FlinkKafkaConsumer011[String]("ad_log", new SimpleStringSchema(), properties))
         //先转换成样例类类型(简单转换操作)
         val dataStream = inputStream
-                .filter( line => line != null && line.split(",").length ==3)
+            .filter(line => line != null && line.split(",").length == 3)
             .map(data => {
                 val arr = data.split(",")
                 SensorReading(arr(0), arr(1).toLong, arr(2).toDouble)
             })
-        //添加watermark
-        //      .assignAscendingTimestamps(_.timestamp * 1000L)    // 升序数据提取时间戳
+            //添加watermark
+            //      .assignAscendingTimestamps(_.timestamp * 1000L)    // 升序数据提取时间戳
             //处理乱序数据
-        .assignTimestampsAndWatermarks(new BoundedOutOfOrdernessTimestampExtractor[SensorReading](Time.seconds(3)) {
-            override def extractTimestamp(element: SensorReading): Long = {
-                element.timestamp * 1000
-            }
-        })
+            .assignTimestampsAndWatermarks(new BoundedOutOfOrdernessTimestampExtractor[SensorReading](Time.seconds(3)) {
+                override def extractTimestamp(element: SensorReading): Long = {
+                    element.timestamp * 1000
+                }
+            })
 
         //    val resultStream = dataStream
         //      .map(s => (s.id,s.temperature))
@@ -71,10 +71,11 @@ object WindowTest {
             //      .window( EventTimeSessionWindows.withGap(Time.seconds(10)) )    // 会话窗口
             // countWindow(10)  //滚动计数窗口
             .timeWindow(Time.seconds(15))
+            //过了waterMark迟到的数据但是没有超过1分钟,还是会加入计算的,但是会每来一个计算一个,在watermark内的数据是到点一起计算
             .allowedLateness(Time.minutes(1))
             .sideOutputLateData(lateTag)
             //      .minBy(1)
-            .reduce( (curRes, newData) => (curRes._1, curRes._2.min(newData._2), curRes._3.max(newData._3)) )
+            .reduce((curRes, newData) => (curRes._1, curRes._2.min(newData._2), curRes._3.max(newData._3)))
 
         resultStream.getSideOutput(lateTag).print("late")
         resultStream.print("result")
