@@ -18,6 +18,7 @@
         <module>myscala</module>
         <module>mapreduce</module>
         <module>Flink_WuShengran</module>
+        <module>flink_userbehavioranalysis</module>
     </modules>
     <packaging>pom</packaging>
 
