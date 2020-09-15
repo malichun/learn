@@ -1,9 +1,5 @@
-package com.atguigu.apitest.sinktest
+package com.atguigu.apitest
 
-import com.atguigu.apitest.SensorReading
-import org.apache.flink.contrib.streaming.state.RocksDBStateBackend
-import org.apache.flink.runtime.state.filesystem.FsStateBackend
-import org.apache.flink.runtime.state.memory.MemoryStateBackend
 import org.apache.flink.streaming.api.functions.ProcessFunction
 import org.apache.flink.streaming.api.scala._
 import org.apache.flink.util.Collector

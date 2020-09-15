@@ -33,8 +33,10 @@ object ProcessFunctionTest2 {
         val warningStream = dataStream
             .keyBy(_.id)
             .process( new TempIncreWarning(10000) ) //毫秒数
+
         warningStream.print()
 
+        
         env.execute()
 
 
