@@ -1,12 +1,18 @@
 package com.atguigu.apitest
 
+import java.util.concurrent.TimeUnit
 import java.{lang, util}
 
 import org.apache.flink.api.common.functions.{IterationRuntimeContext, RichFlatMapFunction, RichFunction, RichMapFunction, RuntimeContext}
+import org.apache.flink.api.common.restartstrategy.RestartStrategies
 import org.apache.flink.api.common.state.{ListState, ListStateDescriptor, MapState, MapStateDescriptor, ReducingState, ReducingStateDescriptor, ValueState, ValueStateDescriptor}
+import org.apache.flink.api.common.time.Time
 import org.apache.flink.configuration.Configuration
 import org.apache.flink.contrib.streaming.state.RocksDBStateBackend
 import org.apache.flink.runtime.state.filesystem.FsStateBackend
+import org.apache.flink.runtime.state.memory.MemoryStateBackend
+import org.apache.flink.streaming.api.CheckpointingMode
+import org.apache.flink.streaming.api.environment.CheckpointConfig
 import org.apache.flink.streaming.api.scala._
 import org.apache.flink.util.Collector
 
@@ -14,6 +20,29 @@ object StateTest {
     def main(args: Array[String]): Unit = {
         val env = StreamExecutionEnvironment.getExecutionEnvironment
         env.setParallelism(1)
+//        env.setStateBackend(new MemoryStateBackend())
+//        env.setStateBackend(new FsStateBackend("", true))
+//        env.setStateBackend(new RocksDBStateBackend(""))
+
+        // 开启checkpoint
+        env.enableCheckpointing(1000L)
+
+        //配置checkpoint
+        val chkpConfig: CheckpointConfig = env.getCheckpointConfig
+        chkpConfig.setCheckpointInterval(10000L)
+        chkpConfig.setCheckpointingMode(CheckpointingMode.EXACTLY_ONCE)
+        chkpConfig.setCheckpointTimeout(60000) //超时时间,给到分钟级别
+        chkpConfig.setMaxConcurrentCheckpoints(2)
+        chkpConfig.setMinPauseBetweenCheckpoints(500L)
+        chkpConfig.setPreferCheckpointForRecovery(true)// 还有savePoint
+        chkpConfig.setTolerableCheckpointFailureNumber(0) //容忍checkPoint多少次失败
+
+
+        //重启策略
+        env.setRestartStrategy(RestartStrategies.fixedDelayRestart(3,10000L))//10s钟内重启3次
+        env.setRestartStrategy(RestartStrategies.failureRateRestart(5,Time.of(5,TimeUnit.MINUTES),Time.of(10,TimeUnit.SECONDS)))
+
+
 
         val inputStream = env.socketTextStream("www.bigdata01.com", 4444)
 
