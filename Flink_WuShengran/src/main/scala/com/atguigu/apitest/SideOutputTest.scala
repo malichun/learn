@@ -1,9 +1,6 @@
 package com.atguigu.apitest.sinktest
 
 import com.atguigu.apitest.SensorReading
-import org.apache.flink.contrib.streaming.state.RocksDBStateBackend
-import org.apache.flink.runtime.state.filesystem.FsStateBackend
-import org.apache.flink.runtime.state.memory.MemoryStateBackend
 import org.apache.flink.streaming.api.functions.ProcessFunction
 import org.apache.flink.streaming.api.scala._
 import org.apache.flink.util.Collector
@@ -17,9 +14,6 @@ object SideOutputTest {
     def main(args: Array[String]): Unit = {
         val env = StreamExecutionEnvironment.getExecutionEnvironment
         env.setParallelism(1)
-//        env.setStateBackend(new MemoryStateBackend())
-//        env.setStateBackend(new FsStateBackend("")) //
-//        env.setStateBackend(new RocksDBStateBackend())
 
         // 读取数据
         val inputStream = env.socketTextStream("www.bigdata01.com", 4444)
