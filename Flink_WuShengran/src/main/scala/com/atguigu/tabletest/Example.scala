@@ -1,5 +1,7 @@
 package com.atguigu.tabletest
 
+import java.io.InputStream
+
 import com.atguigu.apitest.SensorReading
 import org.apache.flink.streaming.api.scala._
 import org.apache.flink.table.api.Table
@@ -13,8 +15,11 @@ object Example {
         val env = StreamExecutionEnvironment.getExecutionEnvironment
         env.setParallelism(1)
 
+
+        val resource = getClass.getResource("/sensor.txt")
+
         //读取数据
-        val inputStream = env.readTextFile("D:\\fileImportant\\Learn_projects\\learn\\Flink_WuShengran\\src\\main\\resources\\sensor.txt")
+        val inputStream = env.readTextFile(resource.getPath)
 
         //先转换成样例类类型(简单转换操作)
         val dataStream = inputStream
@@ -39,7 +44,7 @@ object Example {
         tableEnv.createTemporaryView("dataTable",dataTable)
         val sql:String = "select id,temperature from dataTable where id='sensor_1'"
 
-        val resultSqlTable = tableEnv.sqlQuery(sql)
+        val resultSqlTable: Table = tableEnv.sqlQuery(sql)
 
 
         resultTable.toAppendStream[(String, Double)].print("result")
