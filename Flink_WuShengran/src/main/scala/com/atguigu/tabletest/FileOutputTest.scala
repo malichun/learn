@@ -59,10 +59,12 @@ object FileOutputTest {
             )
             .createTemporaryTable("outputTable")
 
+        //输出到文件,直接会生成文件,不是output.txt文件夹!
         resultTable.insertInto("outputTable")
 
         resultTable.toAppendStream[(String, Double)].print("result")
 
+        //group后要用toRetractStream方法
         aggTable.toRetractStream[Row].print("agg")
 
         env.execute()

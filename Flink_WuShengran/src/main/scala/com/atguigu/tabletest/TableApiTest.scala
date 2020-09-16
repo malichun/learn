@@ -20,6 +20,8 @@ object TableApiTest {
 
 
         /*
+        //选取不同的planner,
+
             //1.1 基于老版本planner的流处理
                 val settings = EnvironmentSettings.newInstance()
                     .useOldPlanner()
