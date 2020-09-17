@@ -80,7 +80,7 @@ object TableApiTest {
             .createTemporaryTable("kafkaInputTable")
 
         //3.查询替换
-        //3.1 使用table api
+        //3.1 使用table api,先得到Table对象
         val sensorTable: Table = tableEnv.from("inputTable")
         val resultTable = sensorTable
             .select('id, 'temperature)

@@ -50,7 +50,7 @@ object EsOutputTest {
             .index("sensor")
             .documentType("temperature")
         )
-            .inUpsertMode()
+            .inUpsertMode() //指定更新追加模式
             .withFormat(new Json())
             .withSchema(new Schema()
                 .field("id", DataTypes.STRING())
