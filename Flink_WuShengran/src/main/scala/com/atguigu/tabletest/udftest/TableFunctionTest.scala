@@ -23,60 +23,64 @@ object TableFunctionTest {
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime)
 
         val settings = EnvironmentSettings.newInstance()
-            .useBlinkPlanner()
             .inStreamingMode()
+            .useBlinkPlanner()
             .build()
-        val tableEnv = StreamTableEnvironment.create(env, settings)
 
-        //读取数据
-        val inputPath = "E:\\gitdir\\learn_projects\\myLearn\\Flink_WuShengran\\src\\main\\resources\\sensor.txt"
-        val inputStream = env.readTextFile(inputPath)
+        val tableEnv = StreamTableEnvironment.create(env,settings)
 
-        //先转换成样例类
-        val dataStream = inputStream
-            .map(data => {
+        val dataStream = env
+            .readTextFile("D:\\fileImportant\\Learn_projects\\learn\\Flink_WuShengran\\src\\main\\resources\\sensor.txt")
+            .map((data:String) =>{
                 val arr = data.split(",")
-                SensorReading(arr(0), arr(1).toLong, arr(2).toDouble)
+                SensorReading(arr(0),arr(1).toLong,arr(2).toDouble)
             })
-            .assignTimestampsAndWatermarks(new BoundedOutOfOrdernessTimestampExtractor[SensorReading](Time.seconds(1)) {
-                override def extractTimestamp(element: SensorReading): Long = element.timestamp * 1000L
+            .assignTimestampsAndWatermarks(new BoundedOutOfOrdernessTimestampExtractor[SensorReading](Time.seconds(1)){
+                override def extractTimestamp(element: SensorReading): Long = {
+                    element.timestamp * 1000L
+                }
             })
 
-        val sensorTable = tableEnv.fromDataStream(dataStream, 'id, 'temperature, 'timestamp.rowtime as 'ts)
+        val sensorTable = tableEnv.fromDataStream(dataStream,'id,'temperature,'timestamp.rowtime as 'ts)
 
         //1.table api
-        val split = new Split("_") //new 一个UDF实例
+        val split = new Split("_") //new一个UDF实例
         val resultTable = sensorTable
-            .joinLateral(split('id) as ('word,'length))
+            .joinLateral(split('id) as ('word,'length) ) //侧向连接
             .select('id,'ts,'word,'length)
 
-        //sql
+        //2.sql
         tableEnv.createTemporaryView("sensor",sensorTable)
         tableEnv.registerFunction("split",split)
         val resultSqlTable = tableEnv.sqlQuery(
             """
               |select
-              |     id,ts,word,length
+              | id,ts,word,length
               |from
-              |     sensor,lateral table(split(id)) as splitid(word,length)
+              | sensor, lateral table(split(id)) as splitid(word,length)
               |""".stripMargin)
 
         resultTable.toAppendStream[Row].print("result")
         resultSqlTable.toAppendStream[Row].print("sql")
+        env.execute("tableFunctiontest")
 
-        env.execute("table function test")
+        //结果:
+//        result> sensor_1,2019-01-17T09:43:19,sensor,6
+//        result> sensor_1,2019-01-17T09:43:19,1,1
+//        sql> sensor_1,2019-01-17T09:43:19,sensor,6
+//        sql> sensor_1,2019-01-17T09:43:19,1,1
+//        result> sensor_6,2019-01-17T09:43:21,sensor,6
+//        result> sensor_6,2019-01-17T09:43:21,6,1
 
     }
 }
 
-
-//自定义TableFunction
-class Split(separator: String) extends TableFunction[(String, Int)] {
-
-    def eval(str: String): Unit = {
+//自定义tableFunction
+class Split(separator:String) extends TableFunction[(String,Int)]{
+    def eval(str:String):Unit={
         str.split(separator).foreach(
-            word => collect((word, word.length))
+            word => collect((word,word.length))
         )
     }
-
 }
+
