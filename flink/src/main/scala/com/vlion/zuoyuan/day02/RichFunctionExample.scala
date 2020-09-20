@@ -1,6 +1,7 @@
 package com.vlion.zuoyuan.day02
 
 import org.apache.flink.api.common.functions.RichMapFunction
+import org.apache.flink.api.common.state.ValueState
 import org.apache.flink.configuration.Configuration
 import org.apache.flink.streaming.api.scala._
 

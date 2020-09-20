@@ -19,6 +19,7 @@
         <module>mapreduce</module>
         <module>Flink_WuShengran</module>
         <module>flink_userbehavioranalysis</module>
+        <module>summer</module>
     </modules>
     <packaging>pom</packaging>
 

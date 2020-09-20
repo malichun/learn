@@ -21,7 +21,8 @@ object FileOutputTest {
         val tableEnv = StreamTableEnvironment.create(env)
 
         //2.连接外部系统,读取数据,注册表
-        tableEnv.connect(new FileSystem().path("D:\\fileImportant\\Learn_projects\\learn\\Flink_WuShengran\\src\\main\\resources\\sensor.txt"))
+
+        tableEnv.connect(new FileSystem().path("E:\\gitdir\\learn_projects\\myLearn\\Flink_WuShengran\\src\\main\\resources\\sensor.txt"))
             .withFormat(new Csv())
             .withSchema(new Schema()
                 .field("id", DataTypes.STRING())
@@ -43,7 +44,8 @@ object FileOutputTest {
 
 
         // 4.输出到文件
-        tableEnv.connect(new FileSystem().path("D:\\fileImportant\\Learn_projects\\learn\\Flink_WuShengran\\src\\main\\resources\\out.txt"))
+        val outputPath ="E:\\gitdir\\learn_projects\\myLearn\\Flink_WuShengran\\src\\main\\resources\\out.txt"
+        tableEnv.connect(new FileSystem().path(outputPath))
             .withFormat(new Csv)
             .withSchema(new Schema()
                 .field("id1", DataTypes.STRING())
