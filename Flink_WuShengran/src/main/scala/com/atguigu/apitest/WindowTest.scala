@@ -49,16 +49,16 @@ object WindowTest {
                     element.timestamp * 1000
                 }
             })
-
-        //    val resultStream = dataStream
-        //      .map(s => (s.id,s.temperature))
-        //      .keyBy(data => data._1)
-        ////      .window(TumblingEventTimeWindows.of(Time.seconds(15)))  //滚动时间窗口
-        ////      .window(SlidingAlignedProcessingTimeWindows.of(Time.seconds(15),Time.seconds(3))) //滑动时间窗口
-        ////      .window(EventTimeSessionWindows.withGap(Time.seconds(10)))  //会话窗口
-        //      .timeWindow(Time.days(1)) //简单版
-        ////        .countWindow(10)  //滚动计数窗口
-        //        .min(1)
+//TODO 这儿
+//            val resultStream = dataStream
+//              .map(s => (s.id,s.temperature))
+//              .keyBy(data => data._1)
+//        //      .window(TumblingEventTimeWindows.of(Time.seconds(15)))  //滚动时间窗口
+//        //      .window(SlidingAlignedProcessingTimeWindows.of(Time.seconds(15),Time.seconds(3))) //滑动时间窗口
+//        //      .window(EventTimeSessionWindows.withGap(Time.seconds(10)))  //会话窗口
+//              .timeWindow(Time.days(1)) //简单版
+//        //        .countWindow(10)  //滚动计数窗口
+//                .min(1)
 
         val lateTag = new OutputTag[(String, Double, Long)]("late")
         //每15秒统计一次,窗口内各个传感器温度的最小值,以及最新的时间戳
