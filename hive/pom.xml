@@ -9,26 +9,14 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>myscala</artifactId>
+    <artifactId>hive</artifactId>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.apache.hive/hive-exec -->
+        <!--添加hive依赖-->
         <dependency>
             <groupId>org.apache.hive</groupId>
             <artifactId>hive-exec</artifactId>
-            <version>1.2.1</version>
-        </dependency>
-        <!-- 请求接扣 -->
-        <dependency>
-            <groupId>commons-httpclient</groupId>
-            <artifactId>commons-httpclient</artifactId>
-            <version>3.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.36</version>
-            <scope>provided</scope>
+            <version>3.1.2</version>
         </dependency>
     </dependencies>
 
