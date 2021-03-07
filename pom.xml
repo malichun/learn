@@ -18,6 +18,10 @@
         <module>myscala</module>
         <module>mapreduce</module>
         <module>Flink_WuShengran</module>
+        <module>flink_userbehavioranalysis</module>
+        <module>summer</module>
+        <module>hive</module>
+        <module>jvm</module>
     </modules>
     <packaging>pom</packaging>
 
