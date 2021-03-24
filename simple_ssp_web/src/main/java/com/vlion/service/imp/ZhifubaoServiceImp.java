@@ -84,6 +84,7 @@ public class ZhifubaoServiceImp implements ZhifubaoService {
             }
 
             Object col2 = planNameObjects.get(2); //媒体
+//            String col2 = null;
             String planId =Utils.getObjectValueString(planNameObjects.get(0));
 
             //sql的key
@@ -122,7 +123,15 @@ public class ZhifubaoServiceImp implements ZhifubaoService {
            double col14 = 0.0;
            double col15 = 0.0;
 
-            double col12 = Utils.getObjectValueDouble(value.get(9)); //返佣金额
+//            double col12 = Utils.getObjectValueDouble(value.get(9)); //返佣金额
+//            H23*0.3*AA23+
+//            K23*L23*AB23+
+//            N23*O23*AC23+
+//            Z23*Y23*AD23
+           double col12 = Utils.getObjectValueInteger(value.get(7))*0.3*Utils.getObjectValueDouble(value.get(26)) +
+                   Utils.getObjectValueInteger(value.get(10))*Utils.getObjectValueDouble(value.get(11))*Utils.getObjectValueDouble(value.get(27))+
+                   Utils.getObjectValueInteger(value.get(13))*Utils.getObjectValueDouble(value.get(14))*Utils.getObjectValueDouble(value.get(28))+
+                   Utils.getObjectValueInteger(value.get(25))*Utils.getObjectValueDouble(value.get(24))*Utils.getObjectValueDouble(value.get(29));
 
            if(planIdValueList != null){
 //             col11 = new BigDecimal(col10).multiply(new BigDecimal(col4)).divide(new BigDecimal(1000),3).doubleValue();//实际消耗 (实际单价 * 曝光 / 1000)

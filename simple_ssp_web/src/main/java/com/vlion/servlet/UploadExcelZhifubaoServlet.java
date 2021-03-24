@@ -55,7 +55,8 @@ public class UploadExcelZhifubaoServlet extends HttpServlet {
         ServletOutputStream out = resp.getOutputStream();
         workbook.write(out);
         out.close();
-        resp.sendRedirect("upload_execel_zhifubao");
+
+//        resp.sendRedirect("upload_execel_zhifubao");
 
     }
 
