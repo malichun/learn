@@ -9,5 +9,7 @@ public class StringTest {
     public static void main(String[] args) {
         String str = new java.lang.String();
         System.out.println("hello,atguigu.com");
+
+//        Runtime
     }
 }

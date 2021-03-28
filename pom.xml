@@ -21,6 +21,8 @@
         <module>summer</module>
         <module>hive</module>
         <module>jvm</module>
+        <module>simple_ssp_web</module>
+        <module>mongodb</module>
     </modules>
     <packaging>pom</packaging>
 
