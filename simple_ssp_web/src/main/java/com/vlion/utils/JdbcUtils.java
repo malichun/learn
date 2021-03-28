@@ -1,8 +1,6 @@
 package com.vlion.utils;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @description:
@@ -12,9 +10,9 @@ import java.util.List;
 public class JdbcUtils {
 
 
-    private static JdbcPool pool = new JdbcPool();//定义一个连接池
+//    private static JdbcPool pool = new JdbcPool();//定义一个连接池
     public static Connection getConnection() throws SQLException {
-        return pool.getConnection();//直接从连接池中获取一个Connection
+        return JdbcPool2.getConnection();//直接从连接池中获取一个Connection
     }
 
     public static void release(Connection conn, Statement st, ResultSet rs) {

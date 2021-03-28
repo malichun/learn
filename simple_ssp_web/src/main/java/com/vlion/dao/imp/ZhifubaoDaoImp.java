@@ -66,7 +66,8 @@ public class ZhifubaoDaoImp implements ZhifubaoDao {
                 "    ROUND( SUM( cost / 1000 / 100 ) / SUM( `show` ) * 1000, 2 ) ecpm, -- cpm\n" +
                 "    ROUND( SUM( cost / 1000 / 100 ) / SUM( click ), 2 ) cpc  -- cpc\n" +
                 "FROM\n" +
-                "    `stat_day_dsp_realtime` \n" +
+//                "    `stat_day_dsp_realtime` \n" +
+                "    `stat_day_dsp_offline` \n" +
                 "WHERE\n" +
                 "    time in ("+
                 etlDates.stream().map(e -> {return "'"+e+"'";}).collect(Collectors.joining(","))
@@ -183,11 +184,20 @@ public class ZhifubaoDaoImp implements ZhifubaoDao {
         } else {
             workbook = new HSSFWorkbook(is);
         }
+        //带边框style
         CellStyle borderStyle = workbook.createCellStyle();
         borderStyle.setBorderBottom(BorderStyle.THIN);
         borderStyle.setBorderLeft(BorderStyle.THIN);
         borderStyle.setBorderRight(BorderStyle.THIN);
         borderStyle.setBorderTop(BorderStyle.THIN);
+
+        //百分号Style
+        CellStyle perCentStype = workbook.createCellStyle();
+        perCentStype.setBorderBottom(BorderStyle.THIN);
+        perCentStype.setBorderLeft(BorderStyle.THIN);
+        perCentStype.setBorderRight(BorderStyle.THIN);
+        perCentStype.setBorderTop(BorderStyle.THIN);
+        perCentStype.setDataFormat((short) BuiltinFormats.getBuiltinFormat("0.00%"));
 
         //获取Excel表单
         sheet = workbook.getSheetAt(0);
@@ -208,6 +218,7 @@ public class ZhifubaoDaoImp implements ZhifubaoDao {
 
 
         for(int j=0;j<datas.size();j++) {
+//            System.out.println("处理第"+j+"行");
             //每一行数据
             List<Object> data = datas.get(j);
 
@@ -217,9 +228,9 @@ public class ZhifubaoDaoImp implements ZhifubaoDao {
             row.createCell(1).setCellValue(Utils.getObjectValueString(data.get(1)));
             row.createCell(2).setCellValue(Utils.getObjectValueString(data.get(2)));
             row.createCell(3).setCellValue(Utils.getObjectValueString(data.get(3)));
-            row.createCell(4).setCellValue(Utils.getObjectValueInteger(data.get(4)));
+            row.createCell(4).setCellValue(Utils.getObjectValueString(data.get(4)));
             row.createCell(5).setCellValue(Utils.getObjectValueInteger(data.get(5)));
-            row.createCell(6).setCellValue(Utils.getObjectValueDouble(data.get(6)));
+            row.createCell(6).setCellValue(Utils.getObjectValueInteger(data.get(6)));
             row.createCell(7).setCellValue(Utils.getObjectValueDouble(data.get(7)));
             row.createCell(8).setCellValue(Utils.getObjectValueDouble(data.get(8)));
             row.createCell(9).setCellValue(Utils.getObjectValueDouble(data.get(9)));
@@ -229,52 +240,68 @@ public class ZhifubaoDaoImp implements ZhifubaoDao {
             row.createCell(13).setCellValue(Utils.getObjectValueDouble(data.get(13)));
             row.createCell(14).setCellValue(Utils.getObjectValueDouble(data.get(14)));
             row.createCell(15).setCellValue(Utils.getObjectValueDouble(data.get(15)));
-            row.createCell(16).setCellValue(Utils.getObjectValueInteger(data.get(16)));
-
-            row.createCell(17).setCellValue(Utils.getObjectValueInteger(data.get(17)));
+            row.createCell(16).setCellValue(Utils.getObjectValueDouble(data.get(16)));
+            row.createCell(17).setCellValue(Utils.getObjectValueDouble(data.get(17)));
             row.createCell(18).setCellValue(Utils.getObjectValueDouble(data.get(18)));
             row.createCell(19).setCellValue(Utils.getObjectValueDouble(data.get(19)));
             row.createCell(20).setCellValue(Utils.getObjectValueDouble(data.get(20)));
             row.createCell(21).setCellValue(Utils.getObjectValueInteger(data.get(21)));
             row.createCell(22).setCellValue(Utils.getObjectValueDouble(data.get(22)));
             row.createCell(23).setCellValue(Utils.getObjectValueDouble(data.get(23)));
-            row.createCell(24).setCellValue(Utils.getObjectValueInteger(data.get(24)));
-            row.createCell(25).setCellValue(Utils.getObjectValueDouble(data.get(25)));
+            row.createCell(24).setCellValue(Utils.getObjectValueDouble(data.get(24)));
+
+
+            row.createCell(25).setCellValue(Utils.getObjectValueInteger(data.get(25)));
             row.createCell(26).setCellValue(Utils.getObjectValueDouble(data.get(26)));
-            row.createCell(27).setCellValue(Utils.getObjectValueInteger(data.get(27)));
+            row.createCell(27).setCellValue(Utils.getObjectValueDouble(data.get(27)));
             row.createCell(28).setCellValue(Utils.getObjectValueDouble(data.get(28)));
-            row.createCell(29).setCellValue(Utils.getObjectValueDouble(data.get(29)));
+            row.createCell(29).setCellValue(Utils.getObjectValueInteger(data.get(29)));
             row.createCell(30).setCellValue(Utils.getObjectValueDouble(data.get(30)));
             row.createCell(31).setCellValue(Utils.getObjectValueDouble(data.get(31)));
-            row.createCell(32).setCellValue(Utils.getObjectValueDouble(data.get(32)));
-            row.createCell(33).setCellValue(Utils.getObjectValueInteger(data.get(33)));
-            row.createCell(34).setCellValue(Utils.getObjectValueInteger(data.get(34)));
-            row.createCell(35).setCellValue(Utils.getObjectValueDouble(data.get(35)));
+            row.createCell(32).setCellValue(Utils.getObjectValueInteger(data.get(32)));
+            row.createCell(33).setCellValue(Utils.getObjectValueDouble(data.get(33)));
+            row.createCell(34).setCellValue(Utils.getObjectValueDouble(data.get(34)));
+            row.createCell(35).setCellValue(Utils.getObjectValueInteger(data.get(35)));
             row.createCell(36).setCellValue(Utils.getObjectValueDouble(data.get(36)));
             row.createCell(37).setCellValue(Utils.getObjectValueDouble(data.get(37)));
             row.createCell(38).setCellValue(Utils.getObjectValueDouble(data.get(38)));
-            row.createCell(39).setCellValue(Utils.getObjectValueInteger(data.get(39)));
+            row.createCell(39).setCellValue(Utils.getObjectValueDouble(data.get(39)));
             row.createCell(40).setCellValue(Utils.getObjectValueDouble(data.get(40)));
-            row.createCell(41).setCellValue(Utils.getObjectValueDouble(data.get(41)));
-            row.createCell(42).setCellValue(Utils.getObjectValueDouble(data.get(42)));
+            row.createCell(41).setCellValue(Utils.getObjectValueInteger(data.get(41)));
+            row.createCell(42).setCellValue(Utils.getObjectValueInteger(data.get(42)));
             row.createCell(43).setCellValue(Utils.getObjectValueDouble(data.get(43)));
-            for(int i=0;i<44;i++){
+            row.createCell(44).setCellValue(Utils.getObjectValueDouble(data.get(44)));
+            row.createCell(45).setCellValue(Utils.getObjectValueDouble(data.get(45)));
+            row.createCell(46).setCellValue(Utils.getObjectValueDouble(data.get(46)));
+            row.createCell(47).setCellValue(Utils.getObjectValueInteger(data.get(47)));
+            row.createCell(48).setCellValue(Utils.getObjectValueDouble(data.get(48)));
+            row.createCell(49).setCellValue(Utils.getObjectValueDouble(data.get(49)));
+            row.createCell(50).setCellValue(Utils.getObjectValueDouble(data.get(50)));
+            row.createCell(51).setCellValue(Utils.getObjectValueDouble(data.get(51)));
+
+            //设置样式
+            for(int i=0;i<51;i++){
+                if(i == 11 || i == 22){
+                    row.getCell(i).setCellStyle(perCentStype);  //设置百分号
+                    continue;
+                }
+//                System.out.println(row.getCell(i));
                 row.getCell(i).setCellStyle(borderStyle);
             }
 
             //处理sum值
-            sum4 += Utils.getObjectValueInteger(data.get(4));
-            sum5 += Utils.getObjectValueInteger(data.get(5));
-            sum6 += Utils.getObjectValueDouble(data.get(6));
-            sum7 += Utils.getObjectValueDouble(data.get(7));
-            sum8 += Utils.getObjectValueDouble(data.get(8));
-            sum9 += Utils.getObjectValueDouble(data.get(9));
-            sum11 += Utils.getObjectValueDouble(data.get(11));
-            sum12 += Utils.getObjectValueDouble(data.get(12));
-            sum13 += Utils.getObjectValueDouble(data.get(13));
-            sum14 += Utils.getObjectValueDouble(data.get(14));
-            sum15 += Utils.getObjectValueDouble(data.get(15));
-            sum16 += Utils.getObjectValueInteger(data.get(16));
+            sum4 += Utils.getObjectValueInteger(data.get(5));
+            sum5 += Utils.getObjectValueInteger(data.get(6));
+            sum6 += Utils.getObjectValueDouble(data.get(7));
+            sum7 += Utils.getObjectValueDouble(data.get(8));
+            sum8 += Utils.getObjectValueDouble(data.get(9));
+            sum9 += Utils.getObjectValueDouble(data.get(10));
+            sum11 += Utils.getObjectValueDouble(data.get(13));
+            sum12 += Utils.getObjectValueDouble(data.get(14));
+            sum13 += Utils.getObjectValueDouble(data.get(15));
+            sum14 += Utils.getObjectValueDouble(data.get(17));
+            sum15 += Utils.getObjectValueDouble(data.get(19));
+            sum16 += Utils.getObjectValueInteger(data.get(21));
         }
         CellStyle sumStyle = workbook.createCellStyle();
         sumStyle.setBorderBottom(BorderStyle.THIN);
@@ -283,38 +310,78 @@ public class ZhifubaoDaoImp implements ZhifubaoDao {
         sumStyle.setBorderTop(BorderStyle.THIN);
         sumStyle.setVerticalAlignment(VerticalAlignment.CENTER);
         sumStyle.setAlignment(HorizontalAlignment.CENTER);
+
+        CellStyle sumStyle2 = workbook.createCellStyle();  // 带百分号
+        sumStyle2.setBorderBottom(BorderStyle.THIN);
+        sumStyle2.setBorderLeft(BorderStyle.THIN);
+        sumStyle2.setBorderRight(BorderStyle.THIN);
+        sumStyle2.setBorderTop(BorderStyle.THIN);
+        sumStyle2.setVerticalAlignment(VerticalAlignment.CENTER);
+        sumStyle2.setAlignment(HorizontalAlignment.CENTER);
+        sumStyle2.setDataFormat((short) BuiltinFormats.getBuiltinFormat("0.00%"));
+
         //计算求和
         row = sheet.getRow(0);
-        row.createCell(4).setCellValue(sum4);
-        row.createCell(5).setCellValue(sum5);
-        row.createCell(6).setCellValue(sum6);
+        row.createCell(5).setCellValue(sum4);
+        row.createCell(6).setCellValue(sum5);
+        row.createCell(7).setCellValue(sum6);
 //        row.createCell(7).setCellValue(new BigDecimal(sum5).divide(new BigDecimal(sum4),3).doubleValue()); // 点击 / 曝光
-        row.createCell(7).setCellValue((double) sum5 / sum4); // 点击 / 曝光
+        row.createCell(8).setCellValue((double) sum5 / sum4); // 点击 / 曝光
 //        row.createCell(8).setCellValue(new BigDecimal(sum6).divide(new BigDecimal(sum4),3).multiply(new BigDecimal(1000)).doubleValue());  //花费 / 曝光 * 1000
-        row.createCell(8).setCellValue( (sum6)/ sum4 *1000);  //花费 / 曝光 * 1000
+        row.createCell(9).setCellValue( (sum6)/ sum4 *1000);  //花费 / 曝光 * 1000
 
 //        row.createCell(9).setCellValue(new BigDecimal(sum6).divide(new BigDecimal(sum5),3).doubleValue()); // 花费 / 点击
-        row.createCell(9).setCellValue(sum6 / sum5); // 花费 / 点击
+        row.createCell(10).setCellValue(sum6 / sum5); // 花费 / 点击
 
-        row.createCell(11).setCellValue(sum11);
-        row.createCell(12).setCellValue(sum12);
-        row.createCell(13).setCellValue(sum12 - sum11); // 返佣金额 - 实际消耗
+        row.createCell(13).setCellValue(sum11);
+        row.createCell(14).setCellValue(sum12);
+        row.createCell(15).setCellValue(sum12 - sum11); // 返佣金额 - 实际消耗
 //        row.createCell(14).setCellValue(new BigDecimal(sum12).divide(new BigDecimal(sum4),3).multiply(new BigDecimal(1000)).doubleValue());  // 返佣金额 / 曝光 * 1000
-        row.createCell(14).setCellValue(sum12/sum4 * 1000);  // 返佣金额 / 曝光 * 1000
-        row.createCell(15).setCellValue(sum12 / sum5);
-        row.createCell(16).setCellValue(sum16);
-        row.getCell(4).setCellStyle(sumStyle);
+        row.createCell(17).setCellValue(sum12/sum4 * 1000);  // 返佣金额 / 曝光 * 1000
+        row.createCell(19).setCellValue(sum12 / sum5);
+        row.createCell(21).setCellValue(sum16);
+
+        //新加汇总字段
+        double aggCol10 =  sum11 / sum4 * 1000;  // M列
+        double aggCol9_1 = aggCol10 / (sum12/sum5) / 1000;//L列  =M1/(O1/G1)/1000
+        double aggCol13_1 = sum13 / sum11;//Q列=P1/N1
+        double aggCol14_1 = aggCol10; //S列  =M1
+        double aggCol15_1 = sum11 / sum5;//U列=N1/G1
+        double aggCol16_1 = 1.0 * sum16 / sum5;//W列 =V1/G1
+        double aggCol16_2 = sum12 / sum16;//X列 =O1/V1
+        double aggCol16_3 = sum11 / sum16;//Y列  =N1/V1
+
+        row.createCell(12).setCellValue(aggCol10);
+        row.createCell(11).setCellValue(aggCol9_1);
+        row.createCell(16).setCellValue(aggCol13_1);
+        row.createCell(18).setCellValue(aggCol14_1);
+        row.createCell(20).setCellValue(aggCol15_1);
+
+        row.createCell(22).setCellValue(aggCol16_1);
+        row.createCell(23).setCellValue(aggCol16_2);
+        row.createCell(24).setCellValue(aggCol16_3);
+
         row.getCell(5).setCellStyle(sumStyle);
         row.getCell(6).setCellStyle(sumStyle);
         row.getCell(7).setCellStyle(sumStyle);
         row.getCell(8).setCellStyle(sumStyle);
         row.getCell(9).setCellStyle(sumStyle);
-        row.getCell(11).setCellStyle(sumStyle);
-        row.getCell(12).setCellStyle(sumStyle);
+        row.getCell(10).setCellStyle(sumStyle);
         row.getCell(13).setCellStyle(sumStyle);
         row.getCell(14).setCellStyle(sumStyle);
         row.getCell(15).setCellStyle(sumStyle);
+        row.getCell(17).setCellStyle(sumStyle);
+        row.getCell(19).setCellStyle(sumStyle);
+        row.getCell(21).setCellStyle(sumStyle);
+        //新加汇总字段样式
+        row.getCell(12).setCellStyle(sumStyle);
+        row.getCell(11).setCellStyle(sumStyle2);
         row.getCell(16).setCellStyle(sumStyle);
+        row.getCell(18).setCellStyle(sumStyle);
+        row.getCell(20).setCellStyle(sumStyle);
+        row.getCell(22).setCellStyle(sumStyle2);
+        row.getCell(23).setCellStyle(sumStyle);
+        row.getCell(24).setCellStyle(sumStyle);
 
         return workbook;
     }

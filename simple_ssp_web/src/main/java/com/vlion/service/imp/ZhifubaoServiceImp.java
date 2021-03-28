@@ -84,7 +84,6 @@ public class ZhifubaoServiceImp implements ZhifubaoService {
             }
 
             Object col2 = planNameObjects.get(2); //媒体
-//            String col2 = null;
             String planId =Utils.getObjectValueString(planNameObjects.get(0));
 
             //sql的key
@@ -153,9 +152,24 @@ public class ZhifubaoServiceImp implements ZhifubaoService {
             //剩下的3-29
 
             List<Object> return_ = new ArrayList<>();
+
+            //新增几个,模版也跟着改变
+            String col1_1 = col1.startsWith("m") ? "mau":"dau";//类别
+            String col1_2 = col3.toLowerCase().contains("ios")?"ios":"and";
+            double col9_1 = col10/(col12/col5)/1000;//回正CTR  =M4/(O4/G4)/1000
+            double col13_1 = col13/col11 ;//盈亏占比  =P4/N4
+            double col14_1 = col10;//CPM成本  =M4
+            double col15_1 = col11 / col5;// CPC成本 =N4/G4
+            double col16_1 = 1.0 * col16 / col5;//CVR =V4/G4
+            double col16_2 = col12 / col16;//UV价格  =O4/V4
+            double col16_3 = col11 / col16;//UV成本 =N4/V4
+
+           //开始组装
             return_.add(col0);
             return_.add(col1);
-            return_.add(col2);
+//            return_.add(col2);
+           return_.add(col1_1);
+           return_.add(col1_2);
             return_.add(col3);
             return_.add(col4);
             return_.add(col5);
@@ -163,13 +177,20 @@ public class ZhifubaoServiceImp implements ZhifubaoService {
             return_.add(col7);
             return_.add(col8);
             return_.add(col9);
+            return_.add(col9_1);
             return_.add(col10);
             return_.add(col11);
             return_.add(col12);
             return_.add(col13);
+           return_.add(col13_1);
             return_.add(col14);
+           return_.add(col14_1);
             return_.add(col15);
+           return_.add(col15_1);
             return_.add(col16);
+           return_.add(col16_1);
+           return_.add(col16_2);
+           return_.add(col16_3);
             return_.addAll(value.subList(3,value.size()));
 
             return return_;

@@ -13,5 +13,9 @@
     <servlet-name>upload_excel_zhifubao</servlet-name>
     <url-pattern>/upload_execel_zhifubao</url-pattern>
   </servlet-mapping>
+
+  <welcome-file-list>
+    <welcome-file>process_zhifubao.jsp</welcome-file>
+  </welcome-file-list>
   
 </web-app>
