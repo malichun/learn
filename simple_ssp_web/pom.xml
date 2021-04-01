@@ -39,8 +39,8 @@
     </dependency>
 
     <dependency>
-      <groupId>org.apache.poi</groupId>
       <artifactId>poi-ooxml</artifactId>
+      <groupId>org.apache.poi</groupId>
       <version>4.0.1</version>
     </dependency>
 <!--    <dependency>-->
