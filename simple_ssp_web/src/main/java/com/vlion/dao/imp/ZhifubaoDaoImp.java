@@ -320,7 +320,7 @@ public class ZhifubaoDaoImp implements ZhifubaoDao {
             row.createCell(56).setCellValue(Utils.getObjectValueDouble(data.get(56)));
 
             //设置样式
-            for(int i=0;i<51;i++){
+            for(int i=0;i<56;i++){
                 if(i == 11 || i == 22){
                     row.getCell(i).setCellStyle(perCentStype);  //设置百分号
                     continue;
