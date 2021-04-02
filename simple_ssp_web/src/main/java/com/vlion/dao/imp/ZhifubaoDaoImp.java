@@ -125,6 +125,40 @@ public class ZhifubaoDaoImp implements ZhifubaoDao {
     }
 
     @Override
+    public List<List<Object>> querySQL4(List<String> etlDates,List<String> planIds) {
+        // 查询返回结果  token          |aduser_id|alp1|alp2 |alp4|
+        String sql="select\n" +
+                "concat(time,'_',plan_id) as token,\n" +
+                " SUM( alp_1 ) alp1, -- 支付宝新登\n" +
+                " SUM( alp_2 ) alp2, -- 支付宝拉活首唤\n" +
+                " SUM( alp_4 ) alp4 -- 支付宝MAU\n" +
+                "FROM\n" +
+                " `stat_day_dsp_realtime` -- 数据表名称\n" +
+                "WHERE\n" +
+                " time in ("+etlDates.stream().map(e -> "'"+e+"'").collect(Collectors.joining(","))+")  -- 统计日期\n" +
+                " and plan_id in ("+
+                String.join(",",planIds)
+                +")\n" +
+                "GROUP BY -- 查询分类 [日期, 广告主, 计划]\n" +
+                "concat(time,'_',plan_id) \n";
+
+        List<List<Object>> _return = new ArrayList<>();
+
+        JdbcUtils.queryBatch(sql, null, rs ->{
+            while(rs.next()){
+                int colCnt = rs.getMetaData().getColumnCount();
+                List<Object> rsList = new ArrayList<>();
+                for(int i=1;i<=colCnt;i++){
+                    rsList.add(rs.getObject(i));
+                }
+                _return.add(rsList);
+            }
+        });
+
+        return _return;
+    }
+
+    @Override
     public Map<String, List<Object>> parseInputExcel(InputStream is,String fileName) throws IOException {
         Workbook workbook = null;
         Sheet sheet = null;
@@ -249,35 +283,41 @@ public class ZhifubaoDaoImp implements ZhifubaoDao {
             row.createCell(22).setCellValue(Utils.getObjectValueDouble(data.get(22)));
             row.createCell(23).setCellValue(Utils.getObjectValueDouble(data.get(23)));
             row.createCell(24).setCellValue(Utils.getObjectValueDouble(data.get(24)));
-
-
+            //20210401新增
             row.createCell(25).setCellValue(Utils.getObjectValueInteger(data.get(25)));
-            row.createCell(26).setCellValue(Utils.getObjectValueDouble(data.get(26)));
-            row.createCell(27).setCellValue(Utils.getObjectValueDouble(data.get(27)));
+            row.createCell(26).setCellValue(Utils.getObjectValueInteger(data.get(26)));
+            row.createCell(27).setCellValue(Utils.getObjectValueInteger(data.get(27)));
             row.createCell(28).setCellValue(Utils.getObjectValueDouble(data.get(28)));
-            row.createCell(29).setCellValue(Utils.getObjectValueInteger(data.get(29)));
-            row.createCell(30).setCellValue(Utils.getObjectValueDouble(data.get(30)));
-            row.createCell(31).setCellValue(Utils.getObjectValueDouble(data.get(31)));
-            row.createCell(32).setCellValue(Utils.getObjectValueInteger(data.get(32)));
-            row.createCell(33).setCellValue(Utils.getObjectValueDouble(data.get(33)));
-            row.createCell(34).setCellValue(Utils.getObjectValueDouble(data.get(34)));
-            row.createCell(35).setCellValue(Utils.getObjectValueInteger(data.get(35)));
-            row.createCell(36).setCellValue(Utils.getObjectValueDouble(data.get(36)));
-            row.createCell(37).setCellValue(Utils.getObjectValueDouble(data.get(37)));
-            row.createCell(38).setCellValue(Utils.getObjectValueDouble(data.get(38)));
-            row.createCell(39).setCellValue(Utils.getObjectValueDouble(data.get(39)));
-            row.createCell(40).setCellValue(Utils.getObjectValueDouble(data.get(40)));
-            row.createCell(41).setCellValue(Utils.getObjectValueInteger(data.get(41)));
-            row.createCell(42).setCellValue(Utils.getObjectValueInteger(data.get(42)));
-            row.createCell(43).setCellValue(Utils.getObjectValueDouble(data.get(43)));
-            row.createCell(44).setCellValue(Utils.getObjectValueDouble(data.get(44)));
-            row.createCell(45).setCellValue(Utils.getObjectValueDouble(data.get(45)));
-            row.createCell(46).setCellValue(Utils.getObjectValueDouble(data.get(46)));
+            row.createCell(29).setCellValue(Utils.getObjectValueDouble(data.get(29)));
+
+
+            row.createCell(30).setCellValue(Utils.getObjectValueInteger(data.get(30)));
+            row.createCell(31).setCellValue(Utils.getObjectValueDouble( data.get(31)));
+            row.createCell(32).setCellValue(Utils.getObjectValueDouble( data.get(32)));
+            row.createCell(33).setCellValue(Utils.getObjectValueDouble( data.get(33)));
+            row.createCell(34).setCellValue(Utils.getObjectValueInteger(data.get(34)));
+            row.createCell(35).setCellValue(Utils.getObjectValueDouble( data.get(35)));
+            row.createCell(36).setCellValue(Utils.getObjectValueDouble( data.get(36)));
+            row.createCell(37).setCellValue(Utils.getObjectValueInteger(data.get(37)));
+            row.createCell(38).setCellValue(Utils.getObjectValueDouble( data.get(38)));
+            row.createCell(39).setCellValue(Utils.getObjectValueDouble( data.get(39)));
+            row.createCell(40).setCellValue(Utils.getObjectValueInteger(data.get(40)));
+            row.createCell(41).setCellValue(Utils.getObjectValueDouble( data.get(41)));
+            row.createCell(42).setCellValue(Utils.getObjectValueDouble( data.get(42)));
+            row.createCell(43).setCellValue(Utils.getObjectValueDouble( data.get(43)));
+            row.createCell(44).setCellValue(Utils.getObjectValueDouble( data.get(44)));
+            row.createCell(45).setCellValue(Utils.getObjectValueDouble( data.get(45)));
+            row.createCell(46).setCellValue(Utils.getObjectValueInteger(data.get(46)));
             row.createCell(47).setCellValue(Utils.getObjectValueInteger(data.get(47)));
-            row.createCell(48).setCellValue(Utils.getObjectValueDouble(data.get(48)));
-            row.createCell(49).setCellValue(Utils.getObjectValueDouble(data.get(49)));
-            row.createCell(50).setCellValue(Utils.getObjectValueDouble(data.get(50)));
-            row.createCell(51).setCellValue(Utils.getObjectValueDouble(data.get(51)));
+            row.createCell(48).setCellValue(Utils.getObjectValueDouble( data.get(48)));
+            row.createCell(49).setCellValue(Utils.getObjectValueDouble( data.get(49)));
+            row.createCell(50).setCellValue(Utils.getObjectValueDouble( data.get(50)));
+            row.createCell(51).setCellValue(Utils.getObjectValueDouble( data.get(51)));
+            row.createCell(52).setCellValue(Utils.getObjectValueInteger(data.get(52)));
+            row.createCell(53).setCellValue(Utils.getObjectValueDouble(data.get(53)));
+            row.createCell(54).setCellValue(Utils.getObjectValueDouble(data.get(54)));
+            row.createCell(55).setCellValue(Utils.getObjectValueDouble(data.get(55)));
+            row.createCell(56).setCellValue(Utils.getObjectValueDouble(data.get(56)));
 
             //设置样式
             for(int i=0;i<51;i++){

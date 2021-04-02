@@ -28,7 +28,7 @@ public class ZhifubaoServiceImp implements ZhifubaoService {
 
         List<String> etlDateList = excelListMap.remove("etlDateSet").stream().map(Object::toString).collect(Collectors.toList()); //拿到处理时间
 
-        List<List<Object>> res1 = zd.QuerySQL1(); //所有的计划id,
+        List<List<Object>> res1 = zd.QuerySQL1(); //所有的计划id,name,media_id,adsolcation_id
         Map<String,Map<String,List<Object>>> map = getAllPlanNameIDMap(res1);
         Map<String,List<Object>> allPlanNameIDMap = map.get("allPlanNameID"); // 计划name, list
         Map<String,List<Object>> allPlanIDAdslocateIDMap = map.get("allPlanIDAdslocateID");  //广告位id, list
@@ -70,6 +70,11 @@ public class ZhifubaoServiceImp implements ZhifubaoService {
         Map<String, List<Object>> planId2Map = getTokenMap(query2Res);
         Map<String, List<Object>> adsoltId3Map = getTokenMap(query3Res);
 
+        //查询4
+        // 日期_计划id , 支付宝新登, 支付宝拉新, 支付宝mau
+        List<List<Object>> query4Res = zd.querySQL4(etlDateList, innerPlanIds); //token          |aduser_id|alp1|alp2 |alp4|
+        Map<String,List<Object>> planId4Map = getTokenMap(query4Res); // key: 日期_计划id
+
         //开始组装
        List<List<Object>> generatedList =  excelListMap.entrySet().stream().map(e -> {
             String key = e.getKey();  //date_channel
@@ -77,7 +82,7 @@ public class ZhifubaoServiceImp implements ZhifubaoService {
             String[] arr = key.split("_");
             String date1 = arr[0];
             String col0 = Utils.convertDateStr(date1); //日期
-            String col1 = arr[1]; //名称
+            String col1 = arr[1]; //名称,渠道号
             List<Object> planNameObjects = allPlanNameIDMap.get(col1);
             if(planNameObjects ==null){
                 return null;
@@ -164,6 +169,24 @@ public class ZhifubaoServiceImp implements ZhifubaoService {
             double col16_2 = col12 / col16;//UV价格  =O4/V4
             double col16_3 = col11 / col16;//UV成本 =N4/V4
 
+           //20210401新增列
+            int col16_4 = 0;
+            int col16_5 =0;
+            int col16_6 = 0;
+            double col16_7 = 0 ;
+            double col16_8 = 0;
+            if(col1.startsWith("qso")){
+                List<Object> query4ResList = planId4Map.get(datePlanIdKey);
+                if(query4ResList != null ){
+                    col16_4 = Utils.getObjectValueInteger(query4ResList.get(1)); //新客
+                    col16_5 = Utils.getObjectValueInteger(query4ResList.get(2)); //首拉
+                    col16_6 = Utils.getObjectValueInteger(query4ResList.get(3)); //mau
+                    col16_7 = 1.0 * col16_5 / col5  ;// 首拉/点击  =AA9/G9
+                    col16_8 = 1.0 * col16 / col16_5 ;// uv/ 首拉  =V9/AA9  V11/AA11
+                }
+            }
+
+
            //开始组装
             return_.add(col0);
             return_.add(col1);
@@ -191,6 +214,13 @@ public class ZhifubaoServiceImp implements ZhifubaoService {
            return_.add(col16_1);
            return_.add(col16_2);
            return_.add(col16_3);
+           //20210401新增
+           return_.add(col16_4);
+           return_.add(col16_5);
+           return_.add(col16_6);
+           return_.add(col16_7);
+           return_.add(col16_8);
+
             return_.addAll(value.subList(3,value.size()));
 
             return return_;

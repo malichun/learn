@@ -23,6 +23,9 @@ public interface ZhifubaoDao {
     // -- SQL03 实际单价, 实际消耗 ; 匹配规则字段(token)
     List<List<Object>> QuerySQL3(List<String> etlDates, List<String> adslocationIds);
 
+    // -- SQL4 新客    首拉    mau    首拉/点击    uv/首拉
+    List<List<Object>> querySQL4(List<String> etlDates, List<String> planIds);
+
     //解析输入Excel
     Map<String,List<Object>> parseInputExcel(InputStream is,String fileName) throws IOException;
 
