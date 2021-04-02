@@ -1,0 +1,93 @@
+Classfile /D:/fileImportant/Learn_projects/learn/jvm/target/classes/com/atguigu/chapter09_metaspace/java/MethodAreaTest.class
+  Last modified 2021-4-1; size 756 bytes
+  MD5 checksum 9b3196f004256696ac83de911cfc1fca
+  Compiled from "MethodAreaTest.java"
+public class com.atguigu.chapter09_metaspace.java.MethodAreaTest
+  minor version: 0
+  major version: 52
+  flags: ACC_PUBLIC, ACC_SUPER
+Constant pool:
+   #1 = Methodref          #7.#23         // java/lang/Object."<init>":()V
+   #2 = Methodref          #24.#25        // com/atguigu/chapter09_metaspace/java/Order.hello:()V
+   #3 = Fieldref           #26.#27        // java/lang/System.out:Ljava/io/PrintStream;
+   #4 = Fieldref           #24.#28        // com/atguigu/chapter09_metaspace/java/Order.count:I
+   #5 = Methodref          #29.#30        // java/io/PrintStream.println:(I)V
+   #6 = Class              #31            // com/atguigu/chapter09_metaspace/java/MethodAreaTest
+   #7 = Class              #32            // java/lang/Object
+   #8 = Utf8               <init>
+   #9 = Utf8               ()V
+  #10 = Utf8               Code
+  #11 = Utf8               LineNumberTable
+  #12 = Utf8               LocalVariableTable
+  #13 = Utf8               this
+  #14 = Utf8               Lcom/atguigu/chapter09_metaspace/java/MethodAreaTest;
+  #15 = Utf8               main
+  #16 = Utf8               ([Ljava/lang/String;)V
+  #17 = Utf8               args
+  #18 = Utf8               [Ljava/lang/String;
+  #19 = Utf8               order
+  #20 = Utf8               Lcom/atguigu/chapter09_metaspace/java/Order;
+  #21 = Utf8               SourceFile
+  #22 = Utf8               MethodAreaTest.java
+  #23 = NameAndType        #8:#9          // "<init>":()V
+  #24 = Class              #33            // com/atguigu/chapter09_metaspace/java/Order
+  #25 = NameAndType        #34:#9         // hello:()V
+  #26 = Class              #35            // java/lang/System
+  #27 = NameAndType        #36:#37        // out:Ljava/io/PrintStream;
+  #28 = NameAndType        #38:#39        // count:I
+  #29 = Class              #40            // java/io/PrintStream
+  #30 = NameAndType        #41:#42        // println:(I)V
+  #31 = Utf8               com/atguigu/chapter09_metaspace/java/MethodAreaTest
+  #32 = Utf8               java/lang/Object
+  #33 = Utf8               com/atguigu/chapter09_metaspace/java/Order
+  #34 = Utf8               hello
+  #35 = Utf8               java/lang/System
+  #36 = Utf8               out
+  #37 = Utf8               Ljava/io/PrintStream;
+  #38 = Utf8               count
+  #39 = Utf8               I
+  #40 = Utf8               java/io/PrintStream
+  #41 = Utf8               println
+  #42 = Utf8               (I)V
+{
+  public com.atguigu.chapter09_metaspace.java.MethodAreaTest();
+    descriptor: ()V
+    flags: ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: return
+      LineNumberTable:
+        line 6: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lcom/atguigu/chapter09_metaspace/java/MethodAreaTest;
+
+  public static void main(java.lang.String[]);
+    descriptor: ([Ljava/lang/String;)V
+    flags: ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=2, locals=2, args_size=1
+         0: aconst_null
+         1: astore_1
+         2: aload_1
+         3: pop
+         4: invokestatic  #2                  // Method com/atguigu/chapter09_metaspace/java/Order.hello:()V
+         7: getstatic     #3                  // Field java/lang/System.out:Ljava/io/PrintStream;
+        10: aload_1
+        11: pop
+        12: getstatic     #4                  // Field com/atguigu/chapter09_metaspace/java/Order.count:I
+        15: invokevirtual #5                  // Method java/io/PrintStream.println:(I)V
+        18: return
+      LineNumberTable:
+        line 8: 0
+        line 9: 2
+        line 10: 7
+        line 11: 18
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      19     0  args   [Ljava/lang/String;
+            2      17     1 order   Lcom/atguigu/chapter09_metaspace/java/Order;
+}
+SourceFile: "MethodAreaTest.java"
