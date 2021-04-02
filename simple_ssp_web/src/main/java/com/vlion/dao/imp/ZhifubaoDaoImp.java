@@ -101,13 +101,16 @@ public class ZhifubaoDaoImp implements ZhifubaoDao {
                 "    `stat_day` \n" +
                 "WHERE\n" +
                 "    del = 'no' \n" +
-                "    AND time = "+
+                "    AND time in ("+
                 etlDates.stream().map(e -> {return "'"+e+"'";}).collect(Collectors.joining(","))
-                +" \n" +
+                +" ) \n" +
                 "    AND adslocation_id IN ( "+String.join(",",adslocationIds)+" ) \n" +
                 "    AND channel_id = 79 \n" +
                 "    AND is_upload = 'y' \n" +
                 "GROUP BY time, adslocation_id";
+
+        System.out.println("query3"+sql);
+
         List<List<Object>> _return = new ArrayList<>();
 
         JdbcUtils.queryBatch(sql, null, rs ->{
