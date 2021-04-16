@@ -35,7 +35,7 @@ public class JdbcUtils {
 
         if(conn != null){
             try{
-                conn.close();
+                conn.close();  //释放连接
             }catch(Exception e) {
                 e.printStackTrace();
             }
