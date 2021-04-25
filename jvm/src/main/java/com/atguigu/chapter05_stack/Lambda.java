@@ -14,16 +14,16 @@ public class Lambda {
     }
 
     public static void main(String[] args) {
-        Lambda lambda = new Lambda();
-
-        Func func = s -> {
-            return true;
-        };
-
-        lambda.lambda(func);
-
-        lambda.lambda(s -> {
-            return true;
-        });
+//        Lambda lambda = new Lambda();
+//
+//        Func func = s -> {
+//            return true;
+//        };
+//
+//        lambda.lambda(func);
+//
+//        lambda.lambda(s -> {
+//            return true;
+//        });
     }
 }

@@ -13,7 +13,7 @@ public class BufferTest2 {
     private static final int BUFFER = 1024 * 1024 * 20;//20MB
 
     public static void main(String[] args) {
-        ArrayList<ByteBuffer> list = new ArrayList<>();
+        ArrayList<ByteBuffer> list = new ArrayList<ByteBuffer>();
 
         int count = 0;
         try {

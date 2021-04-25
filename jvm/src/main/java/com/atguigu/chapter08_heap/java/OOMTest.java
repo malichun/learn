@@ -8,7 +8,7 @@ import java.util.Random;
  */
 public class OOMTest {
     public static void main(String[] args) {
-        ArrayList<Picture> list = new ArrayList<>();
+        ArrayList<Picture> list = new ArrayList<Picture>();
         while(true){
             try {
                 Thread.sleep(20);

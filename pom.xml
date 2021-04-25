@@ -18,7 +18,7 @@
         <module>myscala</module>
         <module>mapreduce</module>
         <module>Flink_WuShengran</module>
-        <module>summer</module>
+        <module>summer_dmp</module>
         <module>hive</module>
         <module>jvm</module>
         <module>simple_ssp_web</module>

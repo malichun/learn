@@ -16,6 +16,7 @@
         <spark_scala.version>2.11</spark_scala.version>
         <hadoop.version>3.0.0</hadoop.version>
         <hive.version>2.1.1</hive.version>
+        <xgboost4j.version>0.82</xgboost4j.version>
     </properties>
 
     <dependencies>
@@ -100,6 +101,19 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.36</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/ml.dmlc/xgboost4j -->
+        <dependency>
+            <groupId>ml.dmlc</groupId>
+            <artifactId>xgboost4j</artifactId>
+            <version>${xgboost4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ml.dmlc</groupId>
+            <artifactId>xgboost4j-spark</artifactId>
+            <version>${xgboost4j.version}</version>
         </dependency>
 
 
