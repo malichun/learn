@@ -26,7 +26,8 @@ object SparkTraining {
             .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
             .getOrCreate()
 
-        val inputPath = "data/xgboost/sample.csv"
+//        val inputPath = "data/xgboost/sample.csv"
+        val inputPath = "E:\\gitdir\\learn_projects\\myLearn\\spark-mllib\\src\\main\\resources\\iris.csv"
 
         //定义数据的schema
         val schema = new StructType(Array(
@@ -38,7 +39,7 @@ object SparkTraining {
 
         //读取数据集
         val rawInput = spark.read.schema(schema).csv(inputPath)
-
+        rawInput.show(10,false)
         /**
          * +------------+-----------+------------+-----------+-----------+
          * |sepal length|sepal width|petal length|petal width|class      |
@@ -60,10 +61,10 @@ object SparkTraining {
         val stringIndexer = new StringIndexer()
             .setInputCol("class")
             .setOutputCol("classIndex")
+            .setHandleInvalid("keep")
             .fit(rawInput)
 
         val labelTransformed = stringIndexer.transform(rawInput).drop("class")
-
         /**
          * +------------+-----------+------------+-----------+----------+
          * |sepal length|sepal width|petal length|petal width|classIndex|
@@ -126,6 +127,8 @@ object SparkTraining {
 
         //开始训练
         val xgbClassificationModel = xgbClassifier.fit(train)
+        xgbClassificationModel.save("")
+
 
         //预测
         val results = xgbClassificationModel.transform(test)

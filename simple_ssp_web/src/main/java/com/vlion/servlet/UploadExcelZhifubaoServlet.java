@@ -2,8 +2,8 @@ package com.vlion.servlet;
 
 import com.vlion.service.ZhifubaoService;
 import com.vlion.service.imp.ZhifubaoServiceImp;
+import com.vlion.utils.Utils;
 import org.apache.poi.ss.usermodel.Workbook;
-import sun.misc.BASE64Encoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -14,10 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 /**
  * @description:
@@ -28,7 +24,7 @@ import java.time.format.DateTimeFormatter;
 @MultipartConfig  //使用MultipartConfig注解标注改servlet能够接受文件上传的请求
 public class UploadExcelZhifubaoServlet extends HttpServlet {
     ZhifubaoService zs = new ZhifubaoServiceImp();
-    DateTimeFormatter formatter3 = DateTimeFormatter.ofPattern("yyyyMMddhhmmss");
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //        设置编码方式
@@ -45,8 +41,8 @@ public class UploadExcelZhifubaoServlet extends HttpServlet {
         //获取上传的文件名
         InputStream is = part.getInputStream();
 
-        String outFileName = fileNameHeader+"_"+getCurrentTime() +suffix;
-        String newFilename = encodeFileName(req, outFileName);
+        String outFileName = fileNameHeader+"_"+ Utils.getCurrentTime() +suffix;
+        String newFilename = Utils.encodeFileName(req, outFileName);
         resp.setContentType("text/x-msdownload");
         resp.setHeader("Content-Disposition", "attachment; filename="+newFilename);
 
@@ -60,28 +56,8 @@ public class UploadExcelZhifubaoServlet extends HttpServlet {
 
     }
 
-    public String getCurrentTime(){
-        //格式化
-        return formatter3.format(LocalDateTime.now());
-    }
-
-
-    public  String encodeFileName(HttpServletRequest request, String fileName) {
-        String name = "";
-
-        String agent = request.getHeader("User-Agent");
-        System.out.println(agent);
-        try {
-            if (agent.contains("Firefox")) {
-                BASE64Encoder base64Encoder = new BASE64Encoder();
-                name = "=?UTF-8?B?" + new String(base64Encoder.encode(fileName.getBytes("UTF-8"))) + "?=";
-            } else {
-                name = URLEncoder.encode(fileName, "UTF-8");
-            }
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        //System.out.println(name);
-        return name;
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("访问成功");
     }
 }
