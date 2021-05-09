@@ -1,16 +1,14 @@
 package com.vlion.utils;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAccessor;
 
 /**
  * @description:
  * @author: malichun
  * @time: 2021/3/23/0023 11:03
  */
-public class DataUtil {
+public class DateUtil {
     private static final long ONE_DAY=24*60*60*1000;
 
     public static final String DATE_FORMAT1="yyyy-MM-dd";
