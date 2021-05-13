@@ -14,20 +14,24 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
 
 /**
  * @description:
  * @author: malichun
- * @time: 2021/3/22/0022 14:52
+ * @time: 2021/3/23/0023 15:46
  */
-//@WebServlet(name = "/servlet/upload_execel_zhifubao")
 @MultipartConfig  //使用MultipartConfig注解标注改servlet能够接受文件上传的请求
-public class UploadExcelZhifubaoServlet extends HttpServlet {
-    ExcelService zs = new ExcelServiceImp();
+public class UploadExcelTaobaoServlet extends HttpServlet {
+    ExcelService excelService = new ExcelServiceImp();
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+    }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //        设置编码方式
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+//        设置编码方式
         req.setCharacterEncoding("utf-8");
         resp.setContentType("text/html;charset=utf-8");
         //        设置输出
@@ -46,18 +50,17 @@ public class UploadExcelZhifubaoServlet extends HttpServlet {
         resp.setContentType("text/x-msdownload");
         resp.setHeader("Content-Disposition", "attachment; filename="+newFilename);
 
-        Workbook workbook = zs.parseZhifubaoExcelService(is, filename);
+        Workbook workbook = null;
+        try {
+            workbook = excelService.parseTaobaoExcelService(is, filename);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         //输出
         ServletOutputStream out = resp.getOutputStream();
         workbook.write(out);
         out.close();
 
-//        resp.sendRedirect("upload_execel_zhifubao");
 
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("访问成功");
     }
 }

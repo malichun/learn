@@ -1,7 +1,10 @@
 package com.vlion.utils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 /**
  * @description:
@@ -36,6 +39,12 @@ public class DateUtil {
     //将String转成LocalDateTime对象
     public static LocalDateTime parseStringToDateTime(String time, String format) {
      return null;
+    }
+
+    public static String formatOldStrToNewStr(String originStr,String formatOrigin,String formatNew) throws ParseException {
+        SimpleDateFormat sdfOld = new SimpleDateFormat(formatOrigin);
+        Date date = sdfOld.parse(originStr);
+        return new SimpleDateFormat(formatNew).format(date);
     }
 
 
