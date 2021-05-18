@@ -42,6 +42,8 @@ public class ExcelDaoImp implements ExcelDao {
                 "    GROUP BY map.plan_id \n" +
                 ") AS media ON plan.id = media.plan_id";
         List<List<Object>> _return = new ArrayList<>();
+        System.out.println("sqlSql1:");
+        System.out.println(sql);
 
         JdbcUtils.queryBatch(sql, null, rs ->{
             while(rs.next()){
@@ -460,9 +462,23 @@ public class ExcelDaoImp implements ExcelDao {
                     rowList.add(arr[i]);
                 }
                 String key = date2 + "_" + adSoltId;
-                _return.put(key, rowList);
+                if(_return.containsKey(key)){
+                    //FGH相加
+                    List<String> beforeRowList = _return.get(key);
+                    if(beforeRowList.get(5)!=null && rowList.get(5)!=null){
+                        beforeRowList.set(5,String.valueOf(Utils.getObjectValueInteger(beforeRowList.get(5))+Utils.getObjectValueInteger(rowList.get(5))));
+                    }
+                    if(beforeRowList.get(6)!=null && rowList.get(6)!=null){
+                        beforeRowList.set(6,String.valueOf(Utils.getObjectValueInteger(beforeRowList.get(6))+Utils.getObjectValueInteger(rowList.get(6))));
+                    }
+                    if(beforeRowList.get(7)!=null && rowList.get(7)!=null){
+                        beforeRowList.set(7,String.valueOf(Utils.getObjectValueInteger(beforeRowList.get(7))+Utils.getObjectValueInteger(rowList.get(7))));
+                    }
+                }else{
+                    _return.put(key, rowList);
+                }
             }
-        }else {
+        }else { //是excel文件
             Workbook workbook = null;
             Sheet sheet = null;
             Row row = null;
@@ -501,7 +517,21 @@ public class ExcelDaoImp implements ExcelDao {
                     rowList.add(celli.getStringCellValue());
                 }
                 String key = date2 + "_" + adSoltId;
-                _return.put(key, rowList);
+                if(_return.containsKey(key)){
+                    //FGH相加
+                    List<String> beforeRowList = _return.get(key);
+                    if(beforeRowList.get(5)!=null && rowList.get(5)!=null){
+                        beforeRowList.set(5,String.valueOf(Utils.getObjectValueInteger(beforeRowList.get(5))+Utils.getObjectValueInteger(rowList.get(5))));
+                    }
+                    if(beforeRowList.get(6)!=null && rowList.get(6)!=null){
+                        beforeRowList.set(6,String.valueOf(Utils.getObjectValueInteger(beforeRowList.get(6))+Utils.getObjectValueInteger(rowList.get(6))));
+                    }
+                    if(beforeRowList.get(7)!=null && rowList.get(7)!=null){
+                        beforeRowList.set(7,String.valueOf(Utils.getObjectValueInteger(beforeRowList.get(7))+Utils.getObjectValueInteger(rowList.get(7))));
+                    }
+                }else{
+                    _return.put(key, rowList);
+                }
             }
         }
         //把日期放进去
@@ -525,6 +555,8 @@ public class ExcelDaoImp implements ExcelDao {
                 " and aduser_id = ?\n" +
                 "group by concat(time,'_',plan_id) \n" +
                 "having not(`show` is null or `show` = 0)";
+        System.out.println("querySql5=======");
+        System.out.println(sql);
 
         List<List<Object>> _return = new ArrayList<>();
 
@@ -617,6 +649,8 @@ public class ExcelDaoImp implements ExcelDao {
                 ") AS main\n" +
                 "LEFT JOIN `user` aduser ON aduser.id = main.aduser_id\n" +
                 "LEFT JOIN plan ON plan.id = main.plan_id";
+        System.out.println("querySql6=======");
+        System.out.println(sql);
 
         List<List<Object>> _return = new ArrayList<>();
         JdbcUtils.queryBatch(sql, new Object[]{ aduserId }, rs ->{
@@ -636,7 +670,7 @@ public class ExcelDaoImp implements ExcelDao {
     @Override
     public List<List<Object>> querySql7(List<String> etlDates, int aduserId) {
         String sql ="SELECT\n" +
-                "    concat(time,'_',plan_id) as token, -- 时间_计划id " +
+                "    concat(time,'_',plan_id) as token, -- 时间_计划id \n" +
                 "    aduser_id, -- 广告主ID\n" +
                 "    ROUND( SUM( bid ) / SUM( req ) * 100, 2 ) bidRate, -- 竞价绿\n" +
                 "    ROUND( SUM( `show` ) / SUM( bid ) * 100, 2 ) bidSuccessRate, -- 竞价成功率\n" +
@@ -653,12 +687,14 @@ public class ExcelDaoImp implements ExcelDao {
                 "    `aduser_id`,\n" +
                 "    `plan_id` \n" +
                 "ORDER BY `bidRate` DESC -- 排序";
+        System.out.println("querySql7=======");
+        System.out.println(sql);
 
         List<List<Object>> _return = new ArrayList<>();
         JdbcUtils.queryBatch(sql, new Object[]{ aduserId }, rs ->{
             while(rs.next()){
                 int colCnt = rs.getMetaData().getColumnCount();
-                List<Object> rsList = new ArrayList<>();
+                List<Object> rsList = new ArrayList<>(colCnt);
                 for(int i=1;i<=colCnt;i++){
                     rsList.add(rs.getObject(i));
                 }
@@ -670,7 +706,7 @@ public class ExcelDaoImp implements ExcelDao {
     }
 
     @Override
-    public Workbook generateTaobaoOutWorkBook(InputStream is, String fileName, List<List<Object>> datas) throws IOException {
+    public Workbook generateTaobaoOutWorkBook(InputStream is, String fileName, List<List<Object>> datas,Set<String> multiPlanNames) throws IOException {
         Workbook workbook = null;
         Sheet sheet = null;
         Row row = null;
@@ -695,6 +731,15 @@ public class ExcelDaoImp implements ExcelDao {
         perCentStype.setBorderRight(BorderStyle.THIN);
         perCentStype.setBorderTop(BorderStyle.THIN);
         perCentStype.setDataFormat((short) BuiltinFormats.getBuiltinFormat("0.00%"));
+
+        //标红的style
+        CellStyle redStyle = workbook.createCellStyle();
+        redStyle.setBorderBottom(BorderStyle.THIN);
+        redStyle.setBorderLeft(BorderStyle.THIN);
+        redStyle.setBorderRight(BorderStyle.THIN);
+        redStyle.setBorderTop(BorderStyle.THIN);
+        redStyle.setFillForegroundColor(IndexedColors.RED.getIndex());
+        redStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
         //获取Excel表单
         sheet = workbook.getSheetAt(0);
@@ -790,8 +835,13 @@ public class ExcelDaoImp implements ExcelDao {
                     row.getCell(i).setCellStyle(perCentStype);  //设置百分号
                     continue;
                 }
+
 //                System.out.println(row.getCell(i));
-                row.getCell(i).setCellStyle(borderStyle);
+                    row.getCell(i).setCellStyle(borderStyle);
+            }
+            //设置红色
+            if(multiPlanNames.contains(col1)){
+                row.getCell(1).setCellStyle(redStyle);
             }
 
             //处理sum值

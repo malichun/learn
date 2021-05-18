@@ -11,14 +11,14 @@
     <title>process_zhifubao</title>
 </head>
 <body>
-<h3>  处理支付宝  </h3>
+<h3 style="color: blue">  处理支付宝  </h3>
     <form action="upload_execel_zhifubao" method="post" enctype="multipart/form-data">
         <input type="file" name="myfile">
         <input type="submit" value="上传文件">
     </form>
 <hr>
 
-<h3>  处理淘宝  </h3>
+<h3 style="color: blue">  处理淘宝  </h3>
 <form action="upload_execel_taobao" method="post" enctype="multipart/form-data">
     <input type="file" name="myfile">
     <input type="submit" value="上传文件">

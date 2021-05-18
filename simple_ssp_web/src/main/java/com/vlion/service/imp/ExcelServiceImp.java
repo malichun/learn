@@ -269,6 +269,55 @@ public class ExcelServiceImp implements ExcelService {
         return _return;
     }
 
+
+
+    //当出现重复的时候,标记一下
+    private Pair<Map<String,List<Object>> , Set<String>> getAllPlanNameIDMap2(List<List<Object>> list) {
+        Map<String, List<Object>> allPlanNameIDMap = new HashMap<>();
+        Map<String,Set<String>> planNamePlanidsMap = new HashMap<>(); // 一个名称前缀下有几个planid,找出 数量大于1 的planid
+
+//        Map<String, Integer> multiPlanIdMap = new HashMap<>();// planId,同名的计划名称
+        Set<String> multiPlanNameSet = new HashSet<>();
+
+        for (List<Object> list1 : list) {
+            Object fullName = list1.get(1);
+
+            if (fullName != null && !fullName.toString().equals("")) {
+                String[] arr = fullName.toString().split("-");
+                if (arr.length != 1) {
+                    String planName = arr[0];
+                    allPlanNameIDMap.put(planName, list1); //计划Name的Map
+                    if(planNamePlanidsMap.containsKey(planName)){
+                        planNamePlanidsMap.get(planName).add(list1.get(0).toString());
+                    }else{
+                        Set<String> planIds = new HashSet<String>(){{
+                            add(list1.get(0).toString());
+                        }};
+                        planNamePlanidsMap.put(planName,planIds);
+                    }
+                }
+            }
+        }
+
+        for(Map.Entry<String,Set<String>> entry:planNamePlanidsMap.entrySet()){
+            String planName = entry.getKey();
+            Set<String> planIds = entry.getValue();
+            if(planIds.size()>1){
+                multiPlanNameSet.add(planName);
+            }
+        }
+
+//        planNamePlanidsMap.forEach((planName, planIds) -> {
+//            int planIdsSize = planIds.size();
+//            for (String plainId : planIds) {
+//                multiPlanIdMap.put(plainId, planIdsSize); // planId有多少相同的planName
+//            }
+//        });
+
+
+        return Pair.with(allPlanNameIDMap, multiPlanNameSet); //返回一个元组(plainid,adslotId);
+    }
+
     //sql2的结果转换为map,sql3的结果转map  (token,list<Object>)
     private Map<String, List<Object>> getTokenMap(List<List<Object>> queryRes2) {
         Map<String, List<Object>> listMap = new HashMap<>();
@@ -281,7 +330,7 @@ public class ExcelServiceImp implements ExcelService {
 
     @Override
     public Workbook parseTaobaoExcelService(InputStream is, String fileName) throws IOException, ParseException {
-        int aduserId = 20970; //广告主id
+        int aduserId = 20970; //广告主id,大航海
 
         Map<String, List<String>> excelListMap = zd.parseTbInputExcel(is, fileName); //key: date + "_" + adSoltId;  日期全部是yyyy-MM-dd
         List<String> etlDateList = excelListMap.remove("etlDateSet"); //拿到处理时间
@@ -295,27 +344,46 @@ public class ExcelServiceImp implements ExcelService {
         //转换tokenMap3
         List<List<Object>> adSoltPlanIdList = zd.QuerySQL1(); //所有的计划id,name,media_id,adsolcation_id
 
-        Map<String, Map<String, List<Object>>> map = getAllPlanNameIDMap(adSoltPlanIdList); //映射关系
-        Map<String, List<Object>> allPlainIDMap = map.get("allPlainIDMap");  //计划id, list(list中包含了广告位id)
+//        Map<String, Map<String, List<Object>>> map = getAllPlanNameIDMap(adSoltPlanIdList); //映射关系
+//        Map<String, List<Object>> allPlanNameIDMap = map.get("allPlanNameID"); // 计划name, list //根据淘宝名称的前缀id(所谓淘宝的广告位id,非vlion库的id)
+//
+//        Map<String, List<Object>> allPlainIDMap = map.get("allPlainIDMap");  //计划id, list(list中包含了广告位id)
+
+        Pair<Map<String, List<Object>>, Set<String>> allPlanNameIDMap2 = getAllPlanNameIDMap2(adSoltPlanIdList);
+        Map<String, List<Object>> allPlanNameIDMap = allPlanNameIDMap2.getValue0();
+        Set<String> multiPlanNames = allPlanNameIDMap2.getValue1(); //对应多个planId的planName
+
 
         //得到广告位id的map
-        Map<String, List<Object>> adsoltMap1 = getAdsoltMapFromPlanMap(tokenMap1,allPlainIDMap);
-        Map<String, List<Object>> adsoltMap2 = getAdsoltMapFromPlanMap(tokenMap2,allPlainIDMap);
-        Map<String, List<Object>> adsoltMap3 = getAdsoltMapFromPlanMap(tokenMap3,allPlainIDMap);
+//        Map<String, List<Object>> adsoltMap1 = getAdsoltMapFromPlanMap(tokenMap1,allPlainIDMap);
+//        Map<String, List<Object>> adsoltMap2 = getAdsoltMapFromPlanMap(tokenMap2,allPlainIDMap);
+//        Map<String, List<Object>> adsoltMap3 = getAdsoltMapFromPlanMap(tokenMap3,allPlainIDMap);
 
 
         //对上传的excel进行遍历,处理得到最终结果表
         List<List<Object>> outResList = excelListMap.entrySet().stream().map(m -> {
             Object[] outList =new Object[32];
 
-            String key = m.getKey(); //日期_广告位id
+            String key = m.getKey(); //日期_淘宝的id
+
+
             String[] keys = key.split("_");
             String date = keys[0];
-            String adsoltId = keys[1];
+            String adsoltIdTaobao = keys[1]; //是淘宝的广告位
+
+            List<Object> objects = allPlanNameIDMap.get(adsoltIdTaobao); //根据名称拿到映射关系
+            String newKey = null;
+            String planId =null;
+            if(objects!=null && objects.get(0) != null){
+                planId = objects.get(0).toString(); //计划id
+                newKey = date+"_"+planId; //
+            }
+
+
             List<String> excelValueList = m.getValue();
 
             outList[0]=date;
-            outList[1]=adsoltId; // 计划id
+            outList[1]=adsoltIdTaobao; // 计划id
 
             Object col4 =null;
             Object col5 =null;
@@ -326,13 +394,16 @@ public class ExcelServiceImp implements ExcelService {
             Object col10 =null;
             Object col11 =null;
             Object col12 = null;
-            List<Object> list1 = adsoltMap1.get(key);
+
+
+
+            List<Object> list1 = tokenMap1.get(newKey);
             if(list1!=null){
                 col12 = Utils.getObjectValueDouble(list1.get(1));// M列ECPM
                 outList[12]=col12;// 成交价
             }
 
-            List<Object> list2 = adsoltMap2.get(key);
+            List<Object> list2 = tokenMap2.get(newKey);
             if(list2 != null) {
                 if (list2.get(2) != null) { // 获取操作系统
                     if(list2.get(2).toString().contains("-and-")){
@@ -341,10 +412,17 @@ public class ExcelServiceImp implements ExcelService {
                         outList[3]="ios";
                     }
                 }
-                 col4 = key + " / " + excelValueList.get(8) + "-" + list2.get(2); //计划名称 广告位id-素材id-媒体-and/ios
-                 col5 = list2.get(8); // 曝光
+
+                if(objects != null && objects.size() >= 4 && objects.get(3)!=null){
+                    String realAdsoltId = objects.get(3).toString(); //真正的广告位id
+                    col4 = realAdsoltId + " / " + excelValueList.get(8) + "-" + list2.get(2); //计划名称 广告位id-素材id-媒体-and/ios
+                }else{
+                    col4 =   "null / " + excelValueList.get(8) + "-" + list2.get(2); //计划名称 广告位id-素材id-媒体-and/ios
+                }
+
+                col5 = list2.get(8); // 曝光
                  col6 = list2.get(9); // 点击
-                 col7 = list2.get(15); // 点击率
+                 col7 = Utils.getObjectValueDouble(list2.get(15))/ 100 ; // 点击率
                  col9 = list2.get(11); // 出价 / ecpm
                 outList[4]=col4;
                 outList[5]=col5;
@@ -354,7 +432,7 @@ public class ExcelServiceImp implements ExcelService {
             }
 
 
-            List<Object> list3 = adsoltMap3.get(key);
+            List<Object> list3 = tokenMap3.get(newKey);
             if(list3 != null){
                  col17 = list3.get(4); // 支付宝拉首唤
                  col10 = list3.get(2); // 竞价率
@@ -494,7 +572,7 @@ public class ExcelServiceImp implements ExcelService {
             return Arrays.asList(outList);
         }).collect(Collectors.toList());
 
-        Workbook workbook = zd.generateTaobaoOutWorkBook(getTemplateInputStream("淘宝报告模版.xlsx"), "淘宝报告模版.xlsx", outResList);
+        Workbook workbook = zd.generateTaobaoOutWorkBook(getTemplateInputStream("淘宝报告模版.xlsx"), "淘宝报告模版.xlsx", outResList,multiPlanNames);
 
         return workbook;
     }

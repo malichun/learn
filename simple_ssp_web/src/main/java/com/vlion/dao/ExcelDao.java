@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @description:
@@ -83,6 +84,15 @@ public interface ExcelDao {
      */
     List<List<Object>> querySql7(List<String> etlDates,int aduserId);
 
-    Workbook generateTaobaoOutWorkBook(InputStream is, String fileName, List<List<Object>> datas) throws IOException;
+    /**
+     *
+     * @param is
+     * @param fileName
+     * @param datas
+     * @param multiPlanNames 有多个planId的planName,需要被标红
+     * @return
+     * @throws IOException
+     */
+    Workbook generateTaobaoOutWorkBook(InputStream is, String fileName, List<List<Object>> datas, Set<String> multiPlanNames) throws IOException;
 
 }
