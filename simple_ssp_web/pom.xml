@@ -92,6 +92,7 @@
       <groupId>ml.dmlc</groupId>
       <artifactId>xgboost4j</artifactId>
       <version>0.81</version>
+      <scope>provided</scope>
     </dependency>
 
 
@@ -100,6 +101,7 @@
       <groupId>ml.dmlc</groupId>
       <artifactId>xgboost4j-spark</artifactId>
       <version>0.81</version>
+      <scope>provided</scope>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
