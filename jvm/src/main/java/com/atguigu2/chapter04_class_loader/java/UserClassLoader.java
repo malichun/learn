@@ -54,12 +54,12 @@ public class UserClassLoader extends ClassLoader{
      */
     private String classNameToPath(String className){
         String path = rootDir + "\\" + className.replace(".","\\")+".class";
-        System.out.println(path);
+//        System.out.println(path);
         return path;
     }
 
     public static void main(String[] args) {
-        String rootDir = "D:\\fileImportant\\Learn_projects\\learn\\jvm\\target\\classes";
+        String rootDir = "E:\\gitdir\\learn_projects\\myLearn\\jvm\\target\\classes";
         try {
             //创建自定义的类的加载器1
             UserClassLoader loader1 = new UserClassLoader(rootDir);
