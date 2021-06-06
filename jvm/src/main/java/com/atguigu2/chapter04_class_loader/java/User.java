@@ -5,4 +5,11 @@ package com.atguigu2.chapter04_class_loader.java;
  */
 public class User {
     private int id;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                '}';
+    }
 }
