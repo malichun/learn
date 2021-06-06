@@ -15,6 +15,9 @@ public interface ExcelService {
     //解析Excel,拼接sql结果
     public Workbook parseZhifubaoExcelService(InputStream is, String fileName) throws IOException;
 
+    // 20210604新版支付宝解析
+    public Workbook parseZhifubaoExcelService2(InputStream is,String fileName) throws IOException;
+
     /**
      * 解析上传淘宝的excel
      * @param is

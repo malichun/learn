@@ -435,6 +435,59 @@ public class ExcelDaoImp implements ExcelDao {
     }
 
     @Override
+    public Map<String, List<Object>> parseZfbInputExcel2(InputStream is, String fileName) throws IOException {
+        Workbook workbook = null;
+        Sheet sheet = null;
+        Row row = null;
+        Set<String> etlDateSet = new HashSet<>();
+
+        //读取Excel输入流
+        if (fileName.endsWith("xlsx")) {
+            workbook = new XSSFWorkbook(is);
+        } else {
+            workbook = new HSSFWorkbook(is);
+        }
+
+        Map<String, List<Object>> _return = new LinkedHashMap<>();
+
+        //获取Excel表单
+        sheet = workbook.getSheetAt(0);
+        //从第一行开始
+        for( int rowNum = 1;rowNum <= sheet.getLastRowNum();rowNum++ ){
+            row = sheet.getRow(rowNum);
+            List<Object> rowList = new ArrayList<>(row.getLastCellNum()+1);
+            String date = row.getCell(0).getStringCellValue();
+            etlDateSet.add(date);
+            String channel = row.getCell(1).getStringCellValue();
+            rowList.add(date); //日期
+            rowList.add(channel); //二级渠道
+            for(int i=2;i< row.getLastCellNum();i++){
+                rowList.add(row.getCell(i).getStringCellValue());
+            }
+            //选取当前返佣金额大的1条  Q列 0 - 16
+            String key = date+"_"+channel;
+            if(_return.containsKey(key)){
+                double col16New = Double.parseDouble(rowList.get(16).toString());//取当日返现金额大的
+                double col16Old = Double.parseDouble(_return.get(key).get(16).toString());
+                if(col16New > col16Old){
+                    _return.put(key,rowList);
+                }
+            }else{
+                _return.put(key,rowList);
+            }
+
+        }
+        //把日期放进去
+        _return.put("etlDateSet", new ArrayList<>(etlDateSet));
+        return _return;
+    }
+
+    @Override
+    public Workbook generateZfbOutWorkBook2(InputStream is, String fileName, List<List<Object>> datas) throws IOException {
+        return null;
+    }
+
+    @Override
     public Map<String, List<String>> parseTbInputExcel(InputStream is, String fileName) throws IOException, ParseException {
         Map<String, List<String>> _return = new LinkedHashMap<>();
         //看一个Excel中有哪些日期

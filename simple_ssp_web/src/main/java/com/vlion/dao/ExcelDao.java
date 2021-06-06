@@ -49,6 +49,18 @@ public interface ExcelDao {
     Workbook generateZfbOutWorkBook(InputStream is, String fileName, List<List<Object>> datas) throws IOException;
 
     /**
+     * 20210604 解析新版支付宝excel
+     * @param is
+     * @param fileName
+     * @return
+     * @throws IOException
+     */
+    Map<String,List<Object>> parseZfbInputExcel2(InputStream is, String fileName) throws IOException;
+
+    Workbook generateZfbOutWorkBook2(InputStream is, String fileName, List<List<Object>> datas) throws IOException;
+
+
+    /**
      * 解析上传的淘宝Excel
      * @param is
      * @param fileName

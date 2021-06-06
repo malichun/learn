@@ -232,6 +232,11 @@ public class ExcelServiceImp implements ExcelService {
         return workbook;
     }
 
+    @Override
+    public Workbook parseZhifubaoExcelService2(InputStream is, String fileName) throws IOException {
+        return null;
+    }
+
     private InputStream getTemplateInputStream(String fileName) {
         InputStream in = this.getClass().getClassLoader().getResourceAsStream(fileName);
         return in;
