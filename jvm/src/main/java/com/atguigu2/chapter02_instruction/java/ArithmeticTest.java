@@ -6,9 +6,15 @@ import org.junit.Test;
  */
 public class ArithmeticTest  {
     @Test
-    public void test1() {
-        double d = 0.0;
-        System.out.println(1 / d);//Infinity
+    public void method1() {
+        int i = 10;
+        double j = i / 0.0;
+        System.out.println(j); //无穷大  Infinity
+
+
+        double d1 = 0.0;
+        double d2 = d1 / 0.0;
+        System.out.println(d2);//NaN
     }
 
     @Test
@@ -16,5 +22,20 @@ public class ArithmeticTest  {
         double d1 = 0.0;
         double d2 = 0.0;
         System.out.println(d1 / d2);//not a number
+    }
+
+
+    public void m3(){
+        int i =10;
+        int a = i++;
+        int j =20;
+        int b = ++j;
+        System.out.println(a); //10
+        System.out.println(b); //21
+    }
+
+
+    public static void main(String[] args) {
+        new ArithmeticTest().m3();
     }
 }

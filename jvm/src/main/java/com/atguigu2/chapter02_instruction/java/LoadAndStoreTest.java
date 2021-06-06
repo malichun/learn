@@ -1,4 +1,4 @@
-package com.atguigu2.chapter02_instruction;
+package com.atguigu2.chapter02_instruction.java;
 
 import java.util.Date;
 

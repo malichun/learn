@@ -1,4 +1,4 @@
-package com.atguigu2.chapter01_class_struct.java.java1;
+package com.atguigu2.chapter01_class_struct.java1;
 
 /**
  * Created by John.Ma on 2021/5/20 0020 1:35
