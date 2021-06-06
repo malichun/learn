@@ -23,6 +23,7 @@
         <module>jvm</module>
         <module>simple_ssp_web</module>
         <module>mongodb</module>
+        <module>concurrent</module>
     </modules>
     <packaging>pom</packaging>
 
