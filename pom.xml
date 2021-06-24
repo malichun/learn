@@ -25,6 +25,7 @@
         <module>mongodb</module>
         <module>kafka-module</module>
         <module>concurrent</module>
+        <module>elasticsearch</module>
     </modules>
     <packaging>pom</packaging>
 
