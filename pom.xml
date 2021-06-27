@@ -26,6 +26,7 @@
         <module>kafka-module</module>
         <module>concurrent</module>
         <module>elasticsearch</module>
+        <module>Flink_WushengranJava</module>
     </modules>
     <packaging>pom</packaging>
 
