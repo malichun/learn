@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * 有一个学生浏览网页的记录程序,它将记录每个学生访问过的网站地址
  * 它由三部分组成:Student,WebPage和StudentTrace三个类
- * -XX:+HeapDumpBeforeFullGc -XX:HeapDumpPath=e:\student.hprof
+ * -XX:+HeapDumpBeforeFullGC -XX:HeapDumpPath=E:\tmp\student_demo\student.hprof
  */
 public class StudentTrace {
     static List<WebPage> webpages = new ArrayList<>();
@@ -14,7 +14,7 @@ public class StudentTrace {
     public static void createWebPages(){
         for(int i=0;i<100;i++){
             WebPage wp = new WebPage();
-            wp.setUrl("http://www."+Integer.toString(i)+".com");
+            wp.setUrl("http://www."+i +".com");
             wp.setConent(Integer.toString(i));
             webpages.add(wp);
         }
