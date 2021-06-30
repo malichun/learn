@@ -1,7 +1,6 @@
 package com.atguigu.wc;
 
 import org.apache.flink.api.common.functions.RichFlatMapFunction;
-import org.apache.flink.api.java.operators.DataSource;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
