@@ -15,7 +15,9 @@ import org.apache.flink.streaming.api.windowing.windows.Window;
 import java.util.Collection;
 
 /**
- * Created by John.Ma on 2021/7/2 0002 1:06
+ * @description:
+ * @author: malichun
+ * @time: 2021/7/2/0002 11:23
  */
 public class WindowTest1_TimeWindow {
     public static void main(String[] args) throws Exception {
@@ -23,17 +25,17 @@ public class WindowTest1_TimeWindow {
         //执行环境并行度设置为1
 //        env.setParallelism(1);
         //从文件中获取数据输出
-        DataStream<String> dataStream = env.readTextFile("D:\\fileImportant\\Learn_projects\\learn\\Flink_WuShengranJava\\src\\main\\resources\\sensor.txt");
+//        DataStream<String> inputStream = env.readTextFile("E:\\gitdir\\learn_projects\\myLearn\\Flink_WuShengranJava\\src\\main\\resources\\sensor.txt");
+        DataStream<String> inputStream = env.socketTextStream("www.bigdata01.com",7777);
 
-        DataStream<SensorReading> sensorStream = dataStream.map(s -> {
+        DataStream<SensorReading> sensorStream = inputStream.map(s -> {
             String[] fields = s.split(",");
             return new SensorReading(fields[0], new Long(fields[1]), new Double(fields[2]));
         });
 
-        sensorStream
-                .keyBy(0)
-                .window(TumblingProcessingTimeWindows.of(Time.seconds(8))) // 添加滚动窗口
-                .sum(1)
+        sensorStream.keyBy(SensorReading::getId)
+                .window(TumblingProcessingTimeWindows.of(Time.seconds(5))) // 添加滚动窗口
+                .max("temperature")
                 .print();
 
 

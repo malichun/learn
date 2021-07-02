@@ -1,5 +1,6 @@
-package com.atguigu.project;
+package com.atguigu.project.advance;
 
+import com.atguigu.project.bean.UserBehavior;
 import org.apache.flink.api.common.eventtime.SerializableTimestampAssigner;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.typeinfo.Types;
