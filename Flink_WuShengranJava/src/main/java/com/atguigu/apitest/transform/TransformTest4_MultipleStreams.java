@@ -1,11 +1,15 @@
 package com.atguigu.apitest.transform;
 
-import com.atguigu.apitest.beans.SensorReading;
+import org.apache.flink.streaming.api.datastream.ConnectedStreams;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.streaming.api.functions.co.RichCoFlatMapFunction;
+import org.apache.flink.util.Collector;
+
+import java.util.Arrays;
 
 /**
- * Created by John.Ma on 2021/6/29 0029 23:42
+ * Connect ,coMap coFlatMap
  */
 public class TransformTest4_MultipleStreams {
     public static void main(String[] args) throws Exception {
@@ -13,17 +17,26 @@ public class TransformTest4_MultipleStreams {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
         //执行环境并行度设置为1
-        env.setParallelism(1);
+//        env.setParallelism(1);
         //从文件中获取数据输出
-        DataStream<String> dataStream = env.readTextFile("D:\\fileImportant\\Learn_projects\\learn\\Flink_WuShengranJava\\src\\main\\resources\\sensor.txt");
+        DataStream<Integer> stream1 = env.fromCollection(Arrays.asList(1,2,3,4,5));
+        DataStream<String> stream2 = env.fromCollection(Arrays.asList("a","b","c","d","e"));
 
-        DataStream<SensorReading> sensorStream = dataStream.map(s -> {
-            String[] fields = s.split(",");
-            return new SensorReading(fields[0],new Long(fields[1]),new Double(fields[2]));
-        });
+        ConnectedStreams<Integer, String> connectedStreams = stream1.connect(stream2);
 
+        connectedStreams.flatMap(new RichCoFlatMapFunction<Integer, String, Object>() {
+            @Override
+            public void flatMap1(Integer value, Collector<Object> out) throws Exception {
+                out.collect(value);
+            }
 
+            @Override
+            public void flatMap2(String value, Collector<Object> out) throws Exception {
+                out.collect(value);
+            }
+        }).print();
 
+        env.execute();
     }
 
 }

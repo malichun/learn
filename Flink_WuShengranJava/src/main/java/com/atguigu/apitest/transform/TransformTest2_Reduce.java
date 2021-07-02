@@ -27,7 +27,7 @@ public class TransformTest2_Reduce {
         // 先分组,再聚合
         KeyedStream<SensorReading, String> keyedStream = sensorStream.keyBy(SensorReading::getId);
 
-        //reduce ,自定义规约函数,获取max温度的传感器信息以外,时间戳更新成最新的
+        //reduce ,自定义归约函数,获取max温度的传感器信息以外,时间戳更新成最新的
         DataStream<SensorReading> resultStream = keyedStream.reduce(new ReduceFunction<SensorReading>() {
             @Override
             public SensorReading reduce(SensorReading value1, SensorReading value2) throws Exception {
