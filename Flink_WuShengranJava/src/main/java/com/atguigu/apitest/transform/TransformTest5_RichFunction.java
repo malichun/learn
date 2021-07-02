@@ -3,6 +3,7 @@ package com.atguigu.apitest.transform;
 import com.atguigu.apitest.beans.SensorReading;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.functions.RichMapFunction;
+import org.apache.flink.api.common.state.ValueStateDescriptor;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.datastream.DataStream;
@@ -62,6 +63,7 @@ public class TransformTest5_RichFunction {
 
         @Override
         public Tuple2<String, Integer> map(SensorReading value) throws Exception {
+//            getRuntimeContext().getState(new ValueStateDescriptor<Object>())
             return Tuple2.of(value.getId(),getRuntimeContext().getIndexOfThisSubtask());
         }
 
