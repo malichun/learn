@@ -14,7 +14,7 @@ import org.apache.flink.util.Collector;
 /**
  * 5秒内最大温度
  */
-public class WindowTest1_TimeAndCountWindow {
+public class WindowTest1_TimeWindow {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         //执行环境并行度设置为1
