@@ -1,5 +1,7 @@
 package com.atguigu.apitest.beans;
 
+import java.util.Objects;
+
 // 传感器温度读数的数据类型
 public class SensorReading {
     // 属性,id,时间戳,温度值
@@ -47,5 +49,20 @@ public class SensorReading {
                 ", timestamp=" + timestamp +
                 ", temperature=" + temperature +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SensorReading that = (SensorReading) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(timestamp, that.timestamp) &&
+                Objects.equals(temperature, that.temperature);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, timestamp, temperature);
     }
 }
