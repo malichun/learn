@@ -1,9 +1,10 @@
 package com.atguigu.apitest.beans;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 // 传感器温度读数的数据类型
-public class SensorReading {
+public class SensorReading{
     // 属性,id,时间戳,温度值
     private String id;
     private Long timestamp;
