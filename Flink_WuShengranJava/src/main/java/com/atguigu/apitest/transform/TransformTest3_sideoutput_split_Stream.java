@@ -31,7 +31,7 @@ public class TransformTest3_sideoutput_split_Stream {
                 @Override
                 public void processElement(SensorReading value, Context ctx, Collector<SensorReading> out) throws Exception {
                     if(value.getTemperature()> 30.0){
-                        ctx.output(new OutputTag<SensorReading>("警告"){},value);
+                        ctx.output(new OutputTag<SensorReading>("警告"){},value);  // 要有大括号
                     }else{
                         out.collect(value);
                     }

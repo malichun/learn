@@ -4,7 +4,6 @@ import com.atguigu.apitest.beans.SensorReading;
 import org.apache.flink.api.common.state.ValueState;
 import org.apache.flink.api.common.state.ValueStateDescriptor;
 import org.apache.flink.configuration.Configuration;
-import org.apache.flink.streaming.api.TimerService;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -53,13 +52,16 @@ public class ProcessTest1_keyedProcessFunction {
         public void processElement(SensorReading value, Context ctx, Collector<Integer> out) throws Exception {
             out.collect(value.getId().length());
 
-            ctx.timestamp();
-            // context
+
+            // context的用法
+            ctx.timestamp();  // 获取当前时间戳,事件时间
             ctx.getCurrentKey(); // 当前key
+//            ctx.output(); 侧输出流
             ctx.timerService().currentProcessingTime();
             ctx.timerService().currentWatermark();
 
             // 在5处理时间的5秒延迟后触发
+            System.out.println("当前时间: "+ctx.timerService().currentProcessingTime());
             ctx.timerService().registerProcessingTimeTimer(ctx.timerService().currentProcessingTime()+5000L);
             tsTimerState.update(ctx.timerService().currentProcessingTime()+1000L);
             //            ctx.timerService().registerEventTimeTimer((value.getTimestamp() + 10) * 1000L);
@@ -70,9 +72,11 @@ public class ProcessTest1_keyedProcessFunction {
 
         @Override
         public void onTimer(long timestamp, OnTimerContext ctx, Collector<Integer> out) throws Exception {
-            System.out.println(timestamp+"定时器触发");
+            System.out.println(timestamp+" 定时器触发");
             ctx.getCurrentKey();
-            ctx.timeDomain();
+//            ctx.output(); 侧输出流
+            ctx.timeDomain()// 时间域
+            ;
         }
 
         @Override

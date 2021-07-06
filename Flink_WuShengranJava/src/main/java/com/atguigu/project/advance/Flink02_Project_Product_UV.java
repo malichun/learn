@@ -24,44 +24,44 @@ public class Flink02_Project_Product_UV {
 
         //创建watermarkStrategy
         WatermarkStrategy<UserBehavior> wms = WatermarkStrategy
-                .<UserBehavior>forBoundedOutOfOrderness(Duration.ofSeconds(5))
-                .withTimestampAssigner(new SerializableTimestampAssigner<UserBehavior>() {
-                    @Override
-                    public long extractTimestamp(UserBehavior element, long recordTimestamp) {
-                        return element.getTimestamp() * 1000L;
-                    }
-                });
+            .<UserBehavior>forBoundedOutOfOrderness(Duration.ofSeconds(5))
+            .withTimestampAssigner(new SerializableTimestampAssigner<UserBehavior>() {
+                @Override
+                public long extractTimestamp(UserBehavior element, long recordTimestamp) {
+                    return element.getTimestamp() * 1000L;
+                }
+            });
 
         env
-                .readTextFile("E:\\gitdir\\learn_projects\\myLearn\\Flink_WuShengranJava\\src\\main\\resources\\UserBehavior.csv")
-                .map(line -> {
-                    String[] split = line.split(",");
-                    return new UserBehavior(Long.valueOf(split[0]), Long.valueOf(split[1]), Integer.valueOf(split[2]), split[3], Long.valueOf(split[4]));
-                })
-                .filter(behavior -> "pv".equals(behavior.getBehavior())) // 过滤出pv的数据
-                .assignTimestampsAndWatermarks(wms)
-                .keyBy(UserBehavior::getBehavior)
-                .window(TumblingEventTimeWindows.of(Time.minutes(60)))
-                .process(new ProcessWindowFunction<UserBehavior, Long, String, TimeWindow>() {
+            .readTextFile("E:\\gitdir\\learn_projects\\myLearn\\Flink_WuShengranJava\\src\\main\\resources\\UserBehavior.csv")
+            .map(line -> {
+                String[] split = line.split(",");
+                return new UserBehavior(Long.valueOf(split[0]), Long.valueOf(split[1]), Integer.valueOf(split[2]), split[3], Long.valueOf(split[4]));
+            })
+            .filter(behavior -> "pv".equals(behavior.getBehavior())) // 过滤出pv的数据
+            .assignTimestampsAndWatermarks(wms)
+            .keyBy(UserBehavior::getBehavior)
+            .window(TumblingEventTimeWindows.of(Time.minutes(60)))
+            .process(new ProcessWindowFunction<UserBehavior, Long, String, TimeWindow>() {
 
-                    private MapState<Long, String> userIdState;
+                private MapState<Long, String> userIdState;
 
-                    @Override
-                    public void open(Configuration parameters) throws Exception {
-                        userIdState = getRuntimeContext()
-                                .getMapState(new MapStateDescriptor<Long, String>("userIdState",Long.class,String.class));
+                @Override
+                public void open(Configuration parameters) throws Exception {
+                    userIdState = getRuntimeContext()
+                        .getMapState(new MapStateDescriptor<Long, String>("userIdState", Long.class, String.class));
+                }
+
+                @Override
+                public void process(String key, Context context, Iterable<UserBehavior> elements, Collector<Long> out) throws Exception {
+                    userIdState.clear();
+                    for (UserBehavior ub : elements) {
+                        userIdState.put(ub.getUserId(), "随意");
                     }
-
-                    @Override
-                    public void process(String key, Context context, Iterable<UserBehavior> elements, Collector<Long> out) throws Exception {
-                        userIdState.clear();
-                        for(UserBehavior ub:elements){
-                            userIdState.put(ub.getUserId(),"随意");
-                        }
-                        out.collect(userIdState.keys().spliterator().estimateSize());
-                    }
-                })
-                .print();
+                    out.collect(userIdState.keys().spliterator().estimateSize());
+                }
+            })
+            .print();
 
         env.execute();
 

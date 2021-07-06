@@ -46,6 +46,7 @@ public class TimeTest3_Demo {
             .assignTimestampsAndWatermarks(wms)
             .keyBy(SensorReading::getId)
             .process(new KeyedProcessFunction<String, SensorReading, String>() {
+                // 后面用状态代替
                 double lastTemperature =0.0;
                 long timerTs = Long.MIN_VALUE;
 

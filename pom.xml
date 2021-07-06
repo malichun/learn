@@ -24,9 +24,10 @@
         <module>simple_ssp_web</module>
         <module>mongodb</module>
         <module>kafka-module</module>
-        <module>concurrent</module>
+        <module>concurrent_learn</module>
         <module>elasticsearch</module>
         <module>Flink_WushengranJava</module>
+        <module>netty</module>
     </modules>
     <packaging>pom</packaging>
 
