@@ -1,0 +1,433 @@
+Classfile /D:/fileImportant/Learn_projects/learn/concurrent_learn/target/classes/cn/itcast/n4/exercise/ExerciseSell.class
+  Last modified 2021-7-11; size 3492 bytes
+  MD5 checksum 7cf2958c6d8c10ff672658587b75bb0a
+  Compiled from "ExerciseSell.java"
+public class cn.itcast.n4.exercise.ExerciseSell
+  minor version: 0
+  major version: 52
+  flags: ACC_PUBLIC, ACC_SUPER
+Constant pool:
+    #1 = Methodref          #38.#87       // java/lang/Object."<init>":()V
+    #2 = Class              #88           // cn/itcast/n4/exercise/TicketWindow
+    #3 = Methodref          #2.#89        // cn/itcast/n4/exercise/TicketWindow."<init>":(I)V
+    #4 = Class              #90           // java/util/ArrayList
+    #5 = Methodref          #4.#87        // java/util/ArrayList."<init>":()V
+    #6 = Class              #91           // java/util/Vector
+    #7 = Methodref          #6.#87        // java/util/Vector."<init>":()V
+    #8 = Class              #92           // java/lang/Thread
+    #9 = InvokeDynamic      #0:#97        // #0:run:(Lcn/itcast/n4/exercise/TicketWindow;Ljava/util/List;)Ljava/lang/Runnable;
+   #10 = Methodref          #8.#98        // java/lang/Thread."<init>":(Ljava/lang/Runnable;)V
+   #11 = InterfaceMethodref #99.#100      // java/util/List.add:(Ljava/lang/Object;)Z
+   #12 = Methodref          #8.#101       // java/lang/Thread.start:()V
+   #13 = InvokeDynamic      #1:#105       // #1:accept:()Ljava/util/function/Consumer;
+   #14 = InterfaceMethodref #99.#106      // java/util/List.forEach:(Ljava/util/function/Consumer;)V
+   #15 = Fieldref           #37.#107      // cn/itcast/n4/exercise/ExerciseSell.log:Lorg/slf4j/Logger;
+   #16 = String             #108          // selled count: {}
+   #17 = InterfaceMethodref #99.#109      // java/util/List.stream:()Ljava/util/stream/Stream;
+   #18 = InvokeDynamic      #2:#113       // #2:applyAsInt:()Ljava/util/function/ToIntFunction;
+   #19 = InterfaceMethodref #114.#115     // java/util/stream/Stream.mapToInt:(Ljava/util/function/ToIntFunction;)Ljava/util/stream/IntStream;
+   #20 = InterfaceMethodref #116.#117     // java/util/stream/IntStream.sum:()I
+   #21 = Methodref          #118.#119     // java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+   #22 = InterfaceMethodref #120.#121     // org/slf4j/Logger.debug:(Ljava/lang/String;Ljava/lang/Object;)V
+   #23 = String             #122          // remainder count: {}
+   #24 = Methodref          #2.#123       // cn/itcast/n4/exercise/TicketWindow.getCount:()I
+   #25 = Fieldref           #37.#124      // cn/itcast/n4/exercise/ExerciseSell.random:Ljava/util/Random;
+   #26 = Methodref          #35.#125      // java/util/Random.nextInt:(I)I
+   #27 = Methodref          #118.#126     // java/lang/Integer.intValue:()I
+   #28 = Methodref          #8.#127       // java/lang/Thread.join:()V
+   #29 = Class              #128          // java/lang/InterruptedException
+   #30 = Methodref          #29.#129      // java/lang/InterruptedException.printStackTrace:()V
+   #31 = Methodref          #37.#130      // cn/itcast/n4/exercise/ExerciseSell.randomAmount:()I
+   #32 = Methodref          #2.#131       // cn/itcast/n4/exercise/TicketWindow.sell:(I)I
+   #33 = String             #132          // c.ExerciseTransfer
+   #34 = Methodref          #133.#134     // org/slf4j/LoggerFactory.getLogger:(Ljava/lang/String;)Lorg/slf4j/Logger;
+   #35 = Class              #135          // java/util/Random
+   #36 = Methodref          #35.#87       // java/util/Random."<init>":()V
+   #37 = Class              #136          // cn/itcast/n4/exercise/ExerciseSell
+   #38 = Class              #137          // java/lang/Object
+   #39 = Utf8               log
+   #40 = Utf8               Lorg/slf4j/Logger;
+   #41 = Utf8               random
+   #42 = Utf8               Ljava/util/Random;
+   #43 = Utf8               <init>
+   #44 = Utf8               ()V
+   #45 = Utf8               Code
+   #46 = Utf8               LineNumberTable
+   #47 = Utf8               LocalVariableTable
+   #48 = Utf8               this
+   #49 = Utf8               Lcn/itcast/n4/exercise/ExerciseSell;
+   #50 = Utf8               main
+   #51 = Utf8               ([Ljava/lang/String;)V
+   #52 = Utf8               t
+   #53 = Utf8               Ljava/lang/Thread;
+   #54 = Utf8               i
+   #55 = Utf8               I
+   #56 = Utf8               args
+   #57 = Utf8               [Ljava/lang/String;
+   #58 = Utf8               ticketWindow
+   #59 = Utf8               Lcn/itcast/n4/exercise/TicketWindow;
+   #60 = Utf8               list
+   #61 = Utf8               Ljava/util/List;
+   #62 = Utf8               sellCount
+   #63 = Utf8               LocalVariableTypeTable
+   #64 = Utf8               Ljava/util/List<Ljava/lang/Thread;>;
+   #65 = Utf8               Ljava/util/List<Ljava/lang/Integer;>;
+   #66 = Utf8               StackMapTable
+   #67 = Class              #57           // "[Ljava/lang/String;"
+   #68 = Class              #88           // cn/itcast/n4/exercise/TicketWindow
+   #69 = Class              #138          // java/util/List
+   #70 = Utf8               randomAmount
+   #71 = Utf8               ()I
+   #72 = Utf8               lambda$main$2
+   #73 = Utf8               (Ljava/lang/Integer;)I
+   #74 = Utf8               c
+   #75 = Utf8               Ljava/lang/Integer;
+   #76 = Utf8               lambda$main$1
+   #77 = Utf8               (Ljava/lang/Thread;)V
+   #78 = Utf8               e
+   #79 = Utf8               Ljava/lang/InterruptedException;
+   #80 = Class              #128          // java/lang/InterruptedException
+   #81 = Utf8               lambda$main$0
+   #82 = Utf8               (Lcn/itcast/n4/exercise/TicketWindow;Ljava/util/List;)V
+   #83 = Utf8               count
+   #84 = Utf8               <clinit>
+   #85 = Utf8               SourceFile
+   #86 = Utf8               ExerciseSell.java
+   #87 = NameAndType        #43:#44       // "<init>":()V
+   #88 = Utf8               cn/itcast/n4/exercise/TicketWindow
+   #89 = NameAndType        #43:#139      // "<init>":(I)V
+   #90 = Utf8               java/util/ArrayList
+   #91 = Utf8               java/util/Vector
+   #92 = Utf8               java/lang/Thread
+   #93 = Utf8               BootstrapMethods
+   #94 = MethodHandle       #6:#140       // invokestatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+   #95 = MethodType         #44           //  ()V
+   #96 = MethodHandle       #6:#141       // invokestatic cn/itcast/n4/exercise/ExerciseSell.lambda$main$0:(Lcn/itcast/n4/exercise/TicketWindow;Ljava/util/List;)V
+   #97 = NameAndType        #142:#143     // run:(Lcn/itcast/n4/exercise/TicketWindow;Ljava/util/List;)Ljava/lang/Runnable;
+   #98 = NameAndType        #43:#144      // "<init>":(Ljava/lang/Runnable;)V
+   #99 = Class              #138          // java/util/List
+  #100 = NameAndType        #145:#146     // add:(Ljava/lang/Object;)Z
+  #101 = NameAndType        #147:#44      // start:()V
+  #102 = MethodType         #148          //  (Ljava/lang/Object;)V
+  #103 = MethodHandle       #6:#149       // invokestatic cn/itcast/n4/exercise/ExerciseSell.lambda$main$1:(Ljava/lang/Thread;)V
+  #104 = MethodType         #77           //  (Ljava/lang/Thread;)V
+  #105 = NameAndType        #150:#151     // accept:()Ljava/util/function/Consumer;
+  #106 = NameAndType        #152:#153     // forEach:(Ljava/util/function/Consumer;)V
+  #107 = NameAndType        #39:#40       // log:Lorg/slf4j/Logger;
+  #108 = Utf8               selled count: {}
+  #109 = NameAndType        #154:#155     // stream:()Ljava/util/stream/Stream;
+  #110 = MethodType         #156          //  (Ljava/lang/Object;)I
+  #111 = MethodHandle       #6:#157       // invokestatic cn/itcast/n4/exercise/ExerciseSell.lambda$main$2:(Ljava/lang/Integer;)I
+  #112 = MethodType         #73           //  (Ljava/lang/Integer;)I
+  #113 = NameAndType        #158:#159     // applyAsInt:()Ljava/util/function/ToIntFunction;
+  #114 = Class              #160          // java/util/stream/Stream
+  #115 = NameAndType        #161:#162     // mapToInt:(Ljava/util/function/ToIntFunction;)Ljava/util/stream/IntStream;
+  #116 = Class              #163          // java/util/stream/IntStream
+  #117 = NameAndType        #164:#71      // sum:()I
+  #118 = Class              #165          // java/lang/Integer
+  #119 = NameAndType        #166:#167     // valueOf:(I)Ljava/lang/Integer;
+  #120 = Class              #168          // org/slf4j/Logger
+  #121 = NameAndType        #169:#170     // debug:(Ljava/lang/String;Ljava/lang/Object;)V
+  #122 = Utf8               remainder count: {}
+  #123 = NameAndType        #171:#71      // getCount:()I
+  #124 = NameAndType        #41:#42       // random:Ljava/util/Random;
+  #125 = NameAndType        #172:#173     // nextInt:(I)I
+  #126 = NameAndType        #174:#71      // intValue:()I
+  #127 = NameAndType        #175:#44      // join:()V
+  #128 = Utf8               java/lang/InterruptedException
+  #129 = NameAndType        #176:#44      // printStackTrace:()V
+  #130 = NameAndType        #70:#71       // randomAmount:()I
+  #131 = NameAndType        #177:#173     // sell:(I)I
+  #132 = Utf8               c.ExerciseTransfer
+  #133 = Class              #178          // org/slf4j/LoggerFactory
+  #134 = NameAndType        #179:#180     // getLogger:(Ljava/lang/String;)Lorg/slf4j/Logger;
+  #135 = Utf8               java/util/Random
+  #136 = Utf8               cn/itcast/n4/exercise/ExerciseSell
+  #137 = Utf8               java/lang/Object
+  #138 = Utf8               java/util/List
+  #139 = Utf8               (I)V
+  #140 = Methodref          #181.#182     // java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+  #141 = Methodref          #37.#183      // cn/itcast/n4/exercise/ExerciseSell.lambda$main$0:(Lcn/itcast/n4/exercise/TicketWindow;Ljava/util/List;)V
+  #142 = Utf8               run
+  #143 = Utf8               (Lcn/itcast/n4/exercise/TicketWindow;Ljava/util/List;)Ljava/lang/Runnable;
+  #144 = Utf8               (Ljava/lang/Runnable;)V
+  #145 = Utf8               add
+  #146 = Utf8               (Ljava/lang/Object;)Z
+  #147 = Utf8               start
+  #148 = Utf8               (Ljava/lang/Object;)V
+  #149 = Methodref          #37.#184      // cn/itcast/n4/exercise/ExerciseSell.lambda$main$1:(Ljava/lang/Thread;)V
+  #150 = Utf8               accept
+  #151 = Utf8               ()Ljava/util/function/Consumer;
+  #152 = Utf8               forEach
+  #153 = Utf8               (Ljava/util/function/Consumer;)V
+  #154 = Utf8               stream
+  #155 = Utf8               ()Ljava/util/stream/Stream;
+  #156 = Utf8               (Ljava/lang/Object;)I
+  #157 = Methodref          #37.#185      // cn/itcast/n4/exercise/ExerciseSell.lambda$main$2:(Ljava/lang/Integer;)I
+  #158 = Utf8               applyAsInt
+  #159 = Utf8               ()Ljava/util/function/ToIntFunction;
+  #160 = Utf8               java/util/stream/Stream
+  #161 = Utf8               mapToInt
+  #162 = Utf8               (Ljava/util/function/ToIntFunction;)Ljava/util/stream/IntStream;
+  #163 = Utf8               java/util/stream/IntStream
+  #164 = Utf8               sum
+  #165 = Utf8               java/lang/Integer
+  #166 = Utf8               valueOf
+  #167 = Utf8               (I)Ljava/lang/Integer;
+  #168 = Utf8               org/slf4j/Logger
+  #169 = Utf8               debug
+  #170 = Utf8               (Ljava/lang/String;Ljava/lang/Object;)V
+  #171 = Utf8               getCount
+  #172 = Utf8               nextInt
+  #173 = Utf8               (I)I
+  #174 = Utf8               intValue
+  #175 = Utf8               join
+  #176 = Utf8               printStackTrace
+  #177 = Utf8               sell
+  #178 = Utf8               org/slf4j/LoggerFactory
+  #179 = Utf8               getLogger
+  #180 = Utf8               (Ljava/lang/String;)Lorg/slf4j/Logger;
+  #181 = Class              #186          // java/lang/invoke/LambdaMetafactory
+  #182 = NameAndType        #187:#191     // metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+  #183 = NameAndType        #81:#82       // lambda$main$0:(Lcn/itcast/n4/exercise/TicketWindow;Ljava/util/List;)V
+  #184 = NameAndType        #76:#77       // lambda$main$1:(Ljava/lang/Thread;)V
+  #185 = NameAndType        #72:#73       // lambda$main$2:(Ljava/lang/Integer;)I
+  #186 = Utf8               java/lang/invoke/LambdaMetafactory
+  #187 = Utf8               metafactory
+  #188 = Class              #193          // java/lang/invoke/MethodHandles$Lookup
+  #189 = Utf8               Lookup
+  #190 = Utf8               InnerClasses
+  #191 = Utf8               (Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+  #192 = Class              #194          // java/lang/invoke/MethodHandles
+  #193 = Utf8               java/lang/invoke/MethodHandles$Lookup
+  #194 = Utf8               java/lang/invoke/MethodHandles
+{
+  private static final org.slf4j.Logger log;
+    descriptor: Lorg/slf4j/Logger;
+    flags: ACC_PRIVATE, ACC_STATIC, ACC_FINAL
+
+  static java.util.Random random;
+    descriptor: Ljava/util/Random;
+    flags: ACC_STATIC
+
+  public cn.itcast.n4.exercise.ExerciseSell();
+    descriptor: ()V
+    flags: ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: return
+      LineNumberTable:
+        line 14: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lcn/itcast/n4/exercise/ExerciseSell;
+
+  public static void main(java.lang.String[]);
+    descriptor: ([Ljava/lang/String;)V
+    flags: ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=4, locals=6, args_size=1
+         0: new           #2                  // class cn/itcast/n4/exercise/TicketWindow
+         3: dup
+         4: sipush        2000
+         7: invokespecial #3                  // Method cn/itcast/n4/exercise/TicketWindow."<init>":(I)V
+        10: astore_1
+        11: new           #4                  // class java/util/ArrayList
+        14: dup
+        15: invokespecial #5                  // Method java/util/ArrayList."<init>":()V
+        18: astore_2
+        19: new           #6                  // class java/util/Vector
+        22: dup
+        23: invokespecial #7                  // Method java/util/Vector."<init>":()V
+        26: astore_3
+        27: iconst_0
+        28: istore        4
+        30: iload         4
+        32: sipush        2000
+        35: if_icmpge     74
+        38: new           #8                  // class java/lang/Thread
+        41: dup
+        42: aload_1
+        43: aload_3
+        44: invokedynamic #9,  0              // InvokeDynamic #0:run:(Lcn/itcast/n4/exercise/TicketWindow;Ljava/util/List;)Ljava/lang/Runnable;
+        49: invokespecial #10                 // Method java/lang/Thread."<init>":(Ljava/lang/Runnable;)V
+        52: astore        5
+        54: aload_2
+        55: aload         5
+        57: invokeinterface #11,  2           // InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z
+        62: pop
+        63: aload         5
+        65: invokevirtual #12                 // Method java/lang/Thread.start:()V
+        68: iinc          4, 1
+        71: goto          30
+        74: aload_2
+        75: invokedynamic #13,  0             // InvokeDynamic #1:accept:()Ljava/util/function/Consumer;
+        80: invokeinterface #14,  2           // InterfaceMethod java/util/List.forEach:(Ljava/util/function/Consumer;)V
+        85: getstatic     #15                 // Field log:Lorg/slf4j/Logger;
+        88: ldc           #16                 // String selled count: {}
+        90: aload_3
+        91: invokeinterface #17,  1           // InterfaceMethod java/util/List.stream:()Ljava/util/stream/Stream;
+        96: invokedynamic #18,  0             // InvokeDynamic #2:applyAsInt:()Ljava/util/function/ToIntFunction;
+       101: invokeinterface #19,  2           // InterfaceMethod java/util/stream/Stream.mapToInt:(Ljava/util/function/ToIntFunction;)Ljava/util/stream/IntStream;
+       106: invokeinterface #20,  1           // InterfaceMethod java/util/stream/IntStream.sum:()I
+       111: invokestatic  #21                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       114: invokeinterface #22,  3           // InterfaceMethod org/slf4j/Logger.debug:(Ljava/lang/String;Ljava/lang/Object;)V
+       119: getstatic     #15                 // Field log:Lorg/slf4j/Logger;
+       122: ldc           #23                 // String remainder count: {}
+       124: aload_1
+       125: invokevirtual #24                 // Method cn/itcast/n4/exercise/TicketWindow.getCount:()I
+       128: invokestatic  #21                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       131: invokeinterface #22,  3           // InterfaceMethod org/slf4j/Logger.debug:(Ljava/lang/String;Ljava/lang/Object;)V
+       136: return
+      LineNumberTable:
+        line 17: 0
+        line 18: 11
+        line 20: 19
+        line 21: 27
+        line 22: 38
+        line 27: 54
+        line 28: 63
+        line 21: 68
+        line 31: 74
+        line 39: 85
+        line 41: 119
+        line 42: 136
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+           54      14     5     t   Ljava/lang/Thread;
+           30      44     4     i   I
+            0     137     0  args   [Ljava/lang/String;
+           11     126     1 ticketWindow   Lcn/itcast/n4/exercise/TicketWindow;
+           19     118     2  list   Ljava/util/List;
+           27     110     3 sellCount   Ljava/util/List;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+           19     118     2  list   Ljava/util/List<Ljava/lang/Thread;>;
+           27     110     3 sellCount   Ljava/util/List<Ljava/lang/Integer;>;
+      StackMapTable: number_of_entries = 2
+        frame_type = 255 /* full_frame */
+          offset_delta = 30
+          locals = [ class "[Ljava/lang/String;", class cn/itcast/n4/exercise/TicketWindow, class java/util/List, class java/util/List, int ]
+          stack = []
+        frame_type = 250 /* chop */
+          offset_delta = 43
+
+  public static int randomAmount();
+    descriptor: ()I
+    flags: ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=2, locals=0, args_size=0
+         0: getstatic     #25                 // Field random:Ljava/util/Random;
+         3: iconst_5
+         4: invokevirtual #26                 // Method java/util/Random.nextInt:(I)I
+         7: iconst_1
+         8: iadd
+         9: ireturn
+      LineNumberTable:
+        line 48: 0
+
+  private static int lambda$main$2(java.lang.Integer);
+    descriptor: (Ljava/lang/Integer;)I
+    flags: ACC_PRIVATE, ACC_STATIC, ACC_SYNTHETIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokevirtual #27                 // Method java/lang/Integer.intValue:()I
+         4: ireturn
+      LineNumberTable:
+        line 39: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0     c   Ljava/lang/Integer;
+
+  private static void lambda$main$1(java.lang.Thread);
+    descriptor: (Ljava/lang/Thread;)V
+    flags: ACC_PRIVATE, ACC_STATIC, ACC_SYNTHETIC
+    Code:
+      stack=1, locals=2, args_size=1
+         0: aload_0
+         1: invokevirtual #28                 // Method java/lang/Thread.join:()V
+         4: goto          12
+         7: astore_1
+         8: aload_1
+         9: invokevirtual #30                 // Method java/lang/InterruptedException.printStackTrace:()V
+        12: return
+      Exception table:
+         from    to  target type
+             0     4     7   Class java/lang/InterruptedException
+      LineNumberTable:
+        line 33: 0
+        line 36: 4
+        line 34: 7
+        line 35: 8
+        line 37: 12
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            8       4     1     e   Ljava/lang/InterruptedException;
+            0      13     0     t   Ljava/lang/Thread;
+      StackMapTable: number_of_entries = 2
+        frame_type = 71 /* same_locals_1_stack_item */
+          stack = [ class java/lang/InterruptedException ]
+        frame_type = 4 /* same */
+
+  private static void lambda$main$0(cn.itcast.n4.exercise.TicketWindow, java.util.List);
+    descriptor: (Lcn/itcast/n4/exercise/TicketWindow;Ljava/util/List;)V
+    flags: ACC_PRIVATE, ACC_STATIC, ACC_SYNTHETIC
+    Code:
+      stack=2, locals=3, args_size=2
+         0: aload_0
+         1: invokestatic  #31                 // Method randomAmount:()I
+         4: invokevirtual #32                 // Method cn/itcast/n4/exercise/TicketWindow.sell:(I)I
+         7: istore_2
+         8: aload_1
+         9: iload_2
+        10: invokestatic  #21                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+        13: invokeinterface #11,  2           // InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z
+        18: pop
+        19: return
+      LineNumberTable:
+        line 24: 0
+        line 25: 8
+        line 26: 19
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            8      12     2 count   I
+
+  static {};
+    descriptor: ()V
+    flags: ACC_STATIC
+    Code:
+      stack=2, locals=0, args_size=0
+         0: ldc           #33                 // String c.ExerciseTransfer
+         2: invokestatic  #34                 // Method org/slf4j/LoggerFactory.getLogger:(Ljava/lang/String;)Lorg/slf4j/Logger;
+         5: putstatic     #15                 // Field log:Lorg/slf4j/Logger;
+         8: new           #35                 // class java/util/Random
+        11: dup
+        12: invokespecial #36                 // Method java/util/Random."<init>":()V
+        15: putstatic     #25                 // Field random:Ljava/util/Random;
+        18: return
+      LineNumberTable:
+        line 13: 0
+        line 45: 8
+}
+SourceFile: "ExerciseSell.java"
+InnerClasses:
+     public static final #189= #188 of #192; //Lookup=class java/lang/invoke/MethodHandles$Lookup of class java/lang/invoke/MethodHandles
+BootstrapMethods:
+  0: #94 invokestatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #95 ()V
+      #96 invokestatic cn/itcast/n4/exercise/ExerciseSell.lambda$main$0:(Lcn/itcast/n4/exercise/TicketWindow;Ljava/util/List;)V
+      #95 ()V
+  1: #94 invokestatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #102 (Ljava/lang/Object;)V
+      #103 invokestatic cn/itcast/n4/exercise/ExerciseSell.lambda$main$1:(Ljava/lang/Thread;)V
+      #104 (Ljava/lang/Thread;)V
+  2: #94 invokestatic java/lang/invoke/LambdaMetafactory.metafactory:(Ljava/lang/invoke/MethodHandles$Lookup;Ljava/lang/String;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodType;Ljava/lang/invoke/MethodHandle;Ljava/lang/invoke/MethodType;)Ljava/lang/invoke/CallSite;
+    Method arguments:
+      #110 (Ljava/lang/Object;)I
+      #111 invokestatic cn/itcast/n4/exercise/ExerciseSell.lambda$main$2:(Ljava/lang/Integer;)I
+      #112 (Ljava/lang/Integer;)I
