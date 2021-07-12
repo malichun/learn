@@ -3,6 +3,7 @@ package cn.itcast.test;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
  */
 @Slf4j(topic = "c.Test20")
 public class Test20 {
-    public static void main(String[] args) {
+    public static void main1(String[] args) {
         // 线程1等待线程2下载结果
         GuardedObject guardedObject = new GuardedObject();
         new Thread(() -> {
@@ -34,6 +35,35 @@ public class Test20 {
         // 主线程阻塞等待
         Object response = guardedObject.get();
         log.debug("get response:[{}]",response);
+
+    }
+
+    public static void sleep(long seconds){
+        try {
+            Thread.sleep(seconds*1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //测试等待超时,没有超时
+    public static void main(String[] args) {
+        GuardedObjectV2 v2 = new GuardedObjectV2();
+        new Thread(() -> {
+            sleep(1);
+            v2.complete(null);
+            sleep(1);
+            v2.complete(Arrays.asList("a","b","c"));
+        }).start();
+
+
+        Object response = v2.get(2500);
+        if (response != null) {
+
+            log.debug("get response:[{}] lines",response);
+        }else{
+            log.debug("can't get response");
+        }
 
     }
 }
@@ -76,41 +106,43 @@ class GuardedObject{
 class GuardedObjectV2{
     // 结果
     private Object response;
-    private final Object lock = new Object();
 
-    public Object get(long millis){
-        synchronized (lock){
-            // 1)记录最初时间
+    // 获取结果的方法
+    // timeout 表示最多要等多久 2000
+    public Object get(long timeout){
+        synchronized (this){
+            // 没有结果
+            // 记录一个开始时间
             long begin = System.currentTimeMillis();
-            // 2) 已经经历的时间
-            long timePassed = 0;
+            // 经历的时间
+            long passedTime = 0;
             while(response == null){
-                // 4 假设millis 是1000,结果在400时唤醒了,那么还有600要等
-                long waitTime = millis - timePassed;
-                log.debug("waitTime: {}", waitTime);
+                // 这一轮循环应该等待的时间
+                long waitTime = timeout - passedTime;
+                // 经历的时间超过了timeout的时间,最大等待时间,就退出循环
                 if(waitTime <= 0){
-                    log.debug("break...");
                     break;
                 }
-                try{
-                    lock.wait(waitTime);
+                try {
+                    this.wait(waitTime); //虚假唤醒,重新入这儿,不是还要等相同的时间
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                // 3) 如果提前被唤醒,这时已经经历的时间建设为400
-                timePassed = System.currentTimeMillis() - begin;
-                log.debug("timePassed:{} , object is null {}",timePassed,response == null);
+                // 循环结束的时候,做一个时间的差值,经历时间
+                passedTime = System.currentTimeMillis() - begin;
             }
+
         }
         return response;
     }
 
+    // 完成,结果已经产生
     public void complete(Object response){
-        synchronized (lock){
+        synchronized (this){
             //条件满足,等待线程通知
             this.response = response;
             log.debug("notify...");
-            lock.notifyAll();
+            this.notifyAll();
         }
     }
 }
