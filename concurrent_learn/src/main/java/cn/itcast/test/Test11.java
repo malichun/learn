@@ -15,6 +15,7 @@ public class Test11 {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            log.debug("下面还执行吗?,还执行");
         });
 
         t1.start();

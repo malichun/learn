@@ -21,7 +21,7 @@ public class TestCorrectPostureStep2 {
                 if (!hasCigarette) {
                     log.debug("没烟,先歇会!");
                     try {
-                        room.wait();
+                        room.wait(); // 会让出锁
                     } catch (InterruptedException e) { // 别的线程调用interrupt方法
                         e.printStackTrace();
                     }
@@ -43,7 +43,6 @@ public class TestCorrectPostureStep2 {
 
         Thread.sleep(1000);
         new Thread(() -> {
-            // 这里能不能加synchronized(room)?
             synchronized (room) {
                 hasCigarette = true;
                 log.debug("烟到了噢!");
