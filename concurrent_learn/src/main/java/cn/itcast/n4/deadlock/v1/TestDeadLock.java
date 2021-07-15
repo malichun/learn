@@ -2,6 +2,8 @@ package cn.itcast.n4.deadlock.v1;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.concurrent.locks.ReentrantLock;
+
 /**
  * Created by John.Ma on 2021/7/14 0014 22:29
  */
@@ -14,11 +16,11 @@ public class TestDeadLock {
         Chopstick c4 = new Chopstick("4");
         Chopstick c5 = new Chopstick("5");
 
-        new Philosopher("苏格拉底",c1,c2).start();
-        new Philosopher("柏拉图",c2,c3).start();
-        new Philosopher("亚里士多德",c3,c4).start();
-        new Philosopher("赫拉克利特",c4,c5).start();
-        new Philosopher("阿基米德",c5,c1).start();
+        new Philosopher("苏格拉底", c1, c2).start();
+        new Philosopher("柏拉图", c2, c3).start();
+        new Philosopher("亚里士多德", c3, c4).start();
+        new Philosopher("赫拉克利特", c4, c5).start();
+        new Philosopher("阿基米德", c5, c1).start();
 
 
     }
@@ -26,7 +28,7 @@ public class TestDeadLock {
 }
 
 // 筷子
-class Chopstick {
+class Chopstick extends ReentrantLock { // 每个筷子继承可重入锁
     String name;
 
     public Chopstick(String name) {
@@ -51,7 +53,7 @@ class Philosopher extends Thread {
         this.right = right;
     }
 
-    private void eat(){
+    private void eat() {
         log.debug("eating...");
         try {
             Thread.sleep(1000);
@@ -62,17 +64,36 @@ class Philosopher extends Thread {
 
     @Override
     public void run() {
-        while(true){
-            // 获得左手筷子
-            synchronized (left){
-                // 获得右手筷子
-                synchronized (right){
-                    // 吃饭
-                    eat();
+        // 会发生死锁
+//        while(true){
+//            // 获得左手筷子
+//            synchronized (left){
+//                // 获得右手筷子
+//                synchronized (right){
+//                    // 吃饭
+//                    eat();
+//                }
+//                // 放下右手筷子
+//            }
+//            // 放下左手筷子
+//        }
+        while (true) {
+            // 尝试获得左手筷子
+            if(left.tryLock()){ // 拿到锁才会进去
+                try{
+                    // 尝试获得右筷子
+                    if(right.tryLock()){ // 拿到锁才会进去
+                        try{
+                            eat();
+                        }finally {
+                            right.unlock();
+                        }
+                    }
+                }finally {
+                    left.unlock(); // 释放自己手里的左手的筷子
                 }
-                // 放下右手筷子
             }
-            // 放下左手筷子
+
         }
     }
 }

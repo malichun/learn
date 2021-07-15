@@ -8,7 +8,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * Created by John.Ma on 2021/7/14 0014 23:46
  */
 @Slf4j(topic = "c.Test22_ReentrantLock")
-public class Test22_ReentrantLock {
+public class Test22_ReentrantLock_kechongru {
     private static ReentrantLock lock = new ReentrantLock(); // 默认不公平锁
 
     public static void main(String[] args) throws InterruptedException {
