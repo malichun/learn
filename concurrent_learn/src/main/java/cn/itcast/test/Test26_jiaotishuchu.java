@@ -8,7 +8,10 @@ package cn.itcast.test;
 // 1.用wait notify实现
 public class Test26_jiaotishuchu {
     public static void main(String[] args) {
-
+        WaitNotify wn =new WaitNotify(1,5);
+        new Thread(() -> wn.print("a",1,2),"t1").start();
+        new Thread(() -> wn.print("b",2,3),"t2").start();
+        new Thread(() -> wn.print("c",3,1),"t3").start();
 
     }
 }
@@ -37,7 +40,7 @@ class WaitNotify{
             synchronized (this){
                 while(flag!= waitFlag){ // 条件不成立
                     try {
-                        this.wait(); // 条件不成立,等待
+                        this.wait(); // 条件不成立,等待,并释放锁
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
