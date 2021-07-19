@@ -44,7 +44,7 @@ class AccountCas implements Account {
     }
 }
 
-interface Account{
+interface Account {
     // 获取余额
     Integer getBalance();
 
@@ -74,19 +74,19 @@ interface Account{
         });
 
         long end = System.nanoTime();
-        System.out.println(account.getBalance() + " cost:"+(end -start)/1000_000 +  " ms");
-
+        System.out.println(account.getBalance() + " cost: " + (end - start) / 1000_000 + " ms");
     }
 }
 
-class AccountUnsafe implements Account{
+class AccountUnsafe implements Account {
     private Integer balance;
 
-    public AccountUnsafe(Integer balance){
+    public AccountUnsafe(Integer balance) {
+
         this.balance = balance;
+
     }
 
-    // 获取余额
     @Override
     public Integer getBalance() {
         synchronized (this) {
@@ -97,7 +97,7 @@ class AccountUnsafe implements Account{
     @Override
     public void withdraw(Integer amount) {
         synchronized (this) {
-            balance -= amount;
+            this.balance -= amount;
         }
     }
 }
