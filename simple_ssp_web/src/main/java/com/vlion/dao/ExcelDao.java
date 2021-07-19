@@ -107,4 +107,12 @@ public interface ExcelDao {
      */
     Workbook generateTaobaoOutWorkBook(InputStream is, String fileName, List<List<Object>> datas, Set<String> multiPlanNames) throws IOException;
 
+    /**
+     * 20210719
+     * 获取真实的ecpm
+     * @param etlDates
+     * @return
+     */
+    List<List<Object>> querySql8(List<String> etlDates,List<String> planIds);
+
 }
