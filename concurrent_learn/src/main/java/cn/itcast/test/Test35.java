@@ -3,6 +3,7 @@ package cn.itcast.test;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @description:
@@ -11,7 +12,9 @@ import java.util.List;
  */
 public class Test35 {
     public static void main(String[] args) {
-        DecimalAccount.demo(new DecimalAccountUnsafe(new BigDecimal(10000)));
+//        DecimalAccount.demo(new DecimalAccountUnsafe(new BigDecimal(10000)));
+//        DecimalAccount.demo(new DecimalAccountSafeLock(new BigDecimal(10000)));
+        DecimalAccount.demo(new DecimalAccountSafeCas(new BigDecimal(10000)));
     }
 }
 
@@ -43,7 +46,9 @@ interface DecimalAccount{
 
 }
 
-
+/**
+ * 有线程安全问题的写法
+ */
 class DecimalAccountUnsafe implements DecimalAccount{
     BigDecimal balance;
 
@@ -63,17 +68,55 @@ class DecimalAccountUnsafe implements DecimalAccount{
     }
 }
 
-// 安全实现,使用锁
+/**
+ * 安全实现,使用锁
+ */
 class DecimalAccountSafeLock implements DecimalAccount{
+
     private final Object lock = new Object();
+    BigDecimal balance;
+
+    public DecimalAccountSafeLock(BigDecimal balance) {
+        this.balance = balance;
+    }
 
     @Override
     public BigDecimal getBalance() {
-        return null;
+        return balance;
     }
 
     @Override
     public void withdraw(BigDecimal amount) {
+        synchronized (lock){
+            BigDecimal balance = this.getBalance();
+            this.balance = balance.subtract(amount);
+        }
+    }
+}
 
+/**
+ * 使用原子引用
+ */
+class DecimalAccountSafeCas implements DecimalAccount{
+    private AtomicReference<BigDecimal> ref;
+
+    public DecimalAccountSafeCas(BigDecimal balance) {
+        this.ref = new AtomicReference<>(balance);
+    }
+
+    @Override
+    public BigDecimal getBalance() {
+        return this.ref.get();
+    }
+
+    @Override
+    public void withdraw(BigDecimal amount) {
+        while(true){
+            BigDecimal prev = ref.get();
+            BigDecimal next = prev.subtract(amount);
+            if(ref.compareAndSet(prev,next)){
+                break;
+            }
+        }
     }
 }
