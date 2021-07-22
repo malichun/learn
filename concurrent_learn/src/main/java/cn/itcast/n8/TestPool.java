@@ -1,4 +1,4 @@
-package cn.itcast.test;
+package cn.itcast.n8;
 
 
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +12,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by John.Ma on 2021/7/21 0021 19:54
+ * 自定义线程池
  */
 @Slf4j(topic = "c.TestPool")
 public class TestPool {
