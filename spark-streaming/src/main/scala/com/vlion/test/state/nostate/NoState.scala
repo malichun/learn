@@ -15,7 +15,7 @@ object NoState {
         val ssc = new StreamingContext(conf,Seconds(3))
         //val ssc = new StreamingContext(sc,Seconds(3))
         //创建DStream
-        val lineDStream:ReceiverInputDStream[String]=ssc.socketTextStream("www.bigdata05.com",4444)
+        val lineDStream:ReceiverInputDStream[String]=ssc.socketTextStream("www.bigdata01.com",7777)
 
         //转为RDD操作
         val wordAndCountDStream:DStream[(String,Int)] = lineDStream.transform(rdd => {
