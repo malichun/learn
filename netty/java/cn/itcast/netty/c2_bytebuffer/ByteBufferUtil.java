@@ -1,11 +1,11 @@
-package cn.itcast.netty.c1;
+package cn.itcast.netty.c2_bytebuffer;
 
 import io.netty.util.internal.StringUtil;
 
 import java.nio.ByteBuffer;
 
 import static io.netty.util.internal.MathUtil.isOutOfBounds;
-import static jdk.nashorn.internal.runtime.regexp.joni.encoding.CharacterType.NEWLINE;
+import static io.netty.util.internal.StringUtil.NEWLINE;
 
 /**
  * @author ：malichun
@@ -17,7 +17,7 @@ public class ByteBufferUtil {
     private static final char[] BYTE2CHAR = new char[256];
     private static final char[] HEXDUMP_TABLE = new char[256 * 4];
     private static final String[] HEXPADDING = new String[16];
-    private static final String[] HEXDUMP_ROWPREFIXES = new String[65536 >>> 4];
+    private static final String[] HEXDUMP_ROWPREFIXES = new String[65536 >>> 4]; // 2^12
     private static final String[] BYTE2HEX = new String[256];
     private static final String[] BYTEPADDING = new String[16];
 
@@ -105,16 +105,16 @@ public class ByteBufferUtil {
     private static void appendPrettyHexDump(StringBuilder dump, ByteBuffer buf, int offset, int length) {
         if (isOutOfBounds(offset, length, buf.capacity())) {
             throw new IndexOutOfBoundsException(
-                    "expected: " + "0 <= offset(" + offset + ") <= offset + length(" + length
-                            + ") <= " + "buf.capacity(" + buf.capacity() + ')');
+                "expected: " + "0 <= offset(" + offset + ") <= offset + length(" + length
+                    + ") <= " + "buf.capacity(" + buf.capacity() + ')');
         }
         if (length == 0) {
             return;
         }
         dump.append(
-                "         +-------------------------------------------------+" +
-                        NEWLINE + "         |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |" +
-                        NEWLINE + "+--------+-------------------------------------------------+----------------+");
+            "         +-------------------------------------------------+" +
+                NEWLINE + "         |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |" +
+                NEWLINE + "+--------+-------------------------------------------------+----------------+");
 
         final int startIndex = offset;
         final int fullRows = length >>> 4;
@@ -163,7 +163,7 @@ public class ByteBufferUtil {
         }
 
         dump.append(NEWLINE +
-                "+--------+-------------------------------------------------+----------------+");
+            "+--------+-------------------------------------------------+----------------+");
     }
 
     private static void appendHexDumpRowPrefix(StringBuilder dump, int row, int rowStartIndex) {
