@@ -1,9 +1,8 @@
-package cn.itcast.netty.c1;
+package cn.itcast.netty.c2_bytebuffer;
 
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
