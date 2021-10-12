@@ -1,4 +1,4 @@
-package cn.itcast.netty.c4_网络编程;
+package cn.itcast.nio.c4_网络编程;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -10,7 +10,7 @@ import java.util.Iterator;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static cn.itcast.netty.c2_bytebuffer.ByteBufferUtil.debugAll;
+import static cn.itcast.nio.c2_bytebuffer.ByteBufferUtil.debugAll;
 
 /**
  * Created by John.Ma on 2021/10/5 0005 22:47

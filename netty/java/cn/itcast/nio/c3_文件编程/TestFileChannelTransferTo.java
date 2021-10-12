@@ -1,4 +1,4 @@
-package cn.itcast.netty.c3_文件编程;
+package cn.itcast.nio.c3_文件编程;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

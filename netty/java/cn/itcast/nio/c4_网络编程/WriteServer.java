@@ -1,4 +1,4 @@
-package cn.itcast.netty.c4_网络编程;
+package cn.itcast.nio.c4_网络编程;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;

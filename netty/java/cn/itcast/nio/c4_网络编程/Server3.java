@@ -1,4 +1,4 @@
-package cn.itcast.netty.c4_网络编程;
+package cn.itcast.nio.c4_网络编程;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -6,14 +6,9 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
 
-import static cn.itcast.netty.c2_bytebuffer.ByteBufferUtil.debugAll;
-import static cn.itcast.netty.c2_bytebuffer.ByteBufferUtil.debugRead;
+import static cn.itcast.nio.c2_bytebuffer.ByteBufferUtil.debugAll;
 
 /**
  * Selector

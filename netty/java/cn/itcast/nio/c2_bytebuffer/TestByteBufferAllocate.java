@@ -1,4 +1,4 @@
-package cn.itcast.netty.c2_bytebuffer;
+package cn.itcast.nio.c2_bytebuffer;
 
 import java.nio.ByteBuffer;
 

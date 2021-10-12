@@ -1,8 +1,8 @@
-package cn.itcast.netty.c2_bytebuffer;
+package cn.itcast.nio.c2_bytebuffer;
 
 import java.nio.ByteBuffer;
 
-import static cn.itcast.netty.c2_bytebuffer.ByteBufferUtil.debugAll;
+import static cn.itcast.nio.c2_bytebuffer.ByteBufferUtil.debugAll;
 
 /**
  * 网络上有多条数据发送给服务端，数据之间使用 \n 进行分隔

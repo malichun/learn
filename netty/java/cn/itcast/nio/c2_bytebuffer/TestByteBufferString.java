@@ -1,9 +1,9 @@
-package cn.itcast.netty.c2_bytebuffer;
+package cn.itcast.nio.c2_bytebuffer;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
-import static cn.itcast.netty.c2_bytebuffer.ByteBufferUtil.debugAll;
+import static cn.itcast.nio.c2_bytebuffer.ByteBufferUtil.debugAll;
 
 /**
  * 编码, 字符串

@@ -1,4 +1,4 @@
-package cn.itcast.netty.c4_网络编程;
+package cn.itcast.nio.c4_网络编程;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -10,7 +10,7 @@ import java.nio.channels.SocketChannel;
 import java.util.ArrayList;
 import java.util.List;
 
-import static cn.itcast.netty.c2_bytebuffer.ByteBufferUtil.debugRead;
+import static cn.itcast.nio.c2_bytebuffer.ByteBufferUtil.debugRead;
 
 /**
  * 阻塞模式

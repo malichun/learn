@@ -1,4 +1,4 @@
-package cn.itcast.netty.c3_文件编程;
+package cn.itcast.nio.c3_文件编程;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -6,7 +6,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
 
-import static cn.itcast.netty.c2_bytebuffer.ByteBufferUtil.debugAll;
+import static cn.itcast.nio.c2_bytebuffer.ByteBufferUtil.debugAll;
 
 /**
  * 分散读取
