@@ -1,0 +1,67 @@
+全部是 cdp2-master分支
+
+# 开发报表流程
+https://wiki.linkflowtech.com/pages/viewpage.action?pageId=64230332
+
+
+# 1. IDMapping服务API-身份类型元数据管理
+https://jira.linkflowtech.com/browse/CDP2-78?filter=-4&jql=assignee%20in%20(lichun.ma)%20order%20by%20created%20DESC
+
+发kafka, 修改,添加, 删除
+
+insight开发
+
+--------------------------------
+## 一些参考: 
+
+参考: KanbanController  
+发送kafka参考:  
+
+发消息的时候只发id就行了
+
+compile('io.naza:frw-kafka-producer') { changing = true }
+
+王凯 4-20 16:33:59
+把这个放到insight里面
+
+
+王凯 4-20 16:35:04
+key和message都是id
+
+王凯 4-20 16:35:24
+identity_type_policy这个表的id
+
+王凯 4-20 16:35:32
+frw
+
+王凯 4-20 16:36:15
+增删改先入identity_type_policy
+
+王凯 4-20 16:36:17
+这个表
+
+王凯 4-20 16:36:43
+入完了后发一条消息到 vest_meta_change
+
+不要真删除,删除把标志位改下就行了
+
+
+# 2. IDMapping服务API按concatId查询用户身份
+https://jira.linkflowtech.com/browse/CDP2-82?filter=-4&jql=assignee%20in%20(lichun.ma)%20order%20by%20created%20DESC
+
+查询用户身份 
+项目: vest-downkeys
+
+
+# 3. 新建租户的系统阈值用户身份初始化
+https://jira.linkflowtech.com/browse/CDP2-79?filter=-1
+
+就是新建租户的时候需要把系统预制元数据数据拷贝到identity_type_policy
+
+预制的数据在identity_type_policy_sys
+
+
+# 后期
+# LTV报表查看
+
+

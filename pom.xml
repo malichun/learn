@@ -28,6 +28,10 @@
         <module>elasticsearch</module>
         <module>Flink_WushengranJava</module>
         <module>netty</module>
+        <module>algorithm</module>
+        <module>genericity</module>
+        <module>generic</module>
+        <module>zookeeper-test</module>
     </modules>
     <packaging>pom</packaging>
 
