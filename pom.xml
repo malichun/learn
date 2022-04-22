@@ -32,6 +32,7 @@
         <module>genericity</module>
         <module>generic</module>
         <module>zookeeper-test</module>
+        <module>reflect</module>
     </modules>
     <packaging>pom</packaging>
 
